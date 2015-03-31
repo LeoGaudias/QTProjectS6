@@ -12,3 +12,13 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+void MainWindow::on_actionQuitter_triggered()
+{
+    close();
+}
+
+void MainWindow::on_actionD_connexion_triggered()
+{
+    // se déconnecter
+}
