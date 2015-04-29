@@ -9,7 +9,7 @@
 
 CREATE TABLE Personne(
         Id          int (11) Auto_increment  NOT NULL ,
-        Age         Int NOT NULL ,
+        Date_nais   DATE,
         Etat_civil  Varchar (25) NOT NULL ,
         Nb_personne Int NOT NULL ,
         Nb_enfant   Int NOT NULL ,
