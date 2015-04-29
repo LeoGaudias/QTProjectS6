@@ -2,14 +2,12 @@
 #include "ui_mainwindow.h"
 #include "ajoutpersonne.h"
 #include "sondage_page1.h"
-#include <QStackedWidget>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    aj_p=new AjoutPersonne();
 }
 
 MainWindow::~MainWindow()
@@ -38,6 +36,7 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_pushButton_2_clicked()
 {
-    ui->centralWidget->setVisible(false);
-    layout()->addWidget(aj_p);
+    //ui->centralWidget->setVisible(false);
+    setCentralWidget(new AjoutPersonne(this));
+    //layout()->addWidget(aj_p);
 }

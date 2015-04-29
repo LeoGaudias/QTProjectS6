@@ -22,5 +22,5 @@ HEADERS  += mainwindow.h \
     sondage_page1.h
 
 FORMS    += mainwindow.ui \
-    ajoutpersonne.ui \
-    sondage_page1.ui
+    sondage_page1.ui \
+    ajoutpersonne.ui

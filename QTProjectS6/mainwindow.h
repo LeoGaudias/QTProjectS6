@@ -27,7 +27,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    AjoutPersonne* aj_p;
 };
 
 #endif // MAINWINDOW_H

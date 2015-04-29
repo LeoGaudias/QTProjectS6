@@ -14,6 +14,7 @@ CREATE TABLE Personne(
         Nb_personne Int NOT NULL ,
         Nb_enfant   Int NOT NULL ,
         Nb_Animaux  Int NOT NULL ,
+        admin		Boolean,
         PRIMARY KEY (Id )
 )ENGINE=InnoDB;
 
