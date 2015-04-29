@@ -27,6 +27,9 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    int last_id;
+    QString servername;
+    QString dbname;
 };
 
 #endif // MAINWINDOW_H

@@ -1,5 +1,8 @@
 #include "ajoutpersonne.h"
 #include "ui_ajoutpersonne.h"
+#include <QPushButton>
+#include "iostream"
+#include <QtSql>
 
 AjoutPersonne::AjoutPersonne(QWidget *parent) :
     QWidget(parent),
@@ -17,9 +20,25 @@ AjoutPersonne::AjoutPersonne(QWidget *parent) :
     ui->revenu->addItem("20000 à 30000€");
     ui->revenu->addItem("30000 à 40000€");
     ui->revenu->addItem("40001€ et plus");
+    ui->buttonBox->button(QDialogButtonBox::Cancel)->setText("Annuler");
 }
 
 AjoutPersonne::~AjoutPersonne()
 {
     delete ui;
+}
+
+void AjoutPersonne::on_buttonBox_clicked(QAbstractButton *button)
+{
+
+}
+
+void AjoutPersonne::on_buttonBox_accepted()
+{
+    QSqlQuery q;
+}
+
+void AjoutPersonne::on_buttonBox_rejected()
+{
+    std::cout<<"rejected"<<std::endl;
 }
