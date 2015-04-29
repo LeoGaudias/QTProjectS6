@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "ajoutpersonne.h"
 
 namespace Ui {
 class MainWindow;
@@ -20,8 +21,13 @@ private slots:
 
     void on_actionD_connexion_triggered();
 
+    void on_pushButton_clicked();
+
+    void on_pushButton_2_clicked();
+
 private:
     Ui::MainWindow *ui;
+    AjoutPersonne* aj_p;
 };
 
 #endif // MAINWINDOW_H

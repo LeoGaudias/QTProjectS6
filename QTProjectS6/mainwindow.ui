@@ -174,7 +174,7 @@
      <x>0</x>
      <y>0</y>
      <width>724</width>
-     <height>26</height>
+     <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuQuitter">
@@ -198,7 +198,7 @@
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionD_connexion">
    <property name="text">
-    <string>Se déconnecter</string>
+    <string>S'inscire</string>
    </property>
   </action>
   <action name="actionQuitter">

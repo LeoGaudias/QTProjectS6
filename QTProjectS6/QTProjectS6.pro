@@ -13,8 +13,14 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    ajoutpersonne.cpp \
+    sondage_page1.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    ajoutpersonne.h \
+    sondage_page1.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    ajoutpersonne.ui \
+    sondage_page1.ui

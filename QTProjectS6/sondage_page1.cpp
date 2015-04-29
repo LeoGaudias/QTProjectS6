@@ -16,7 +16,5 @@ Sondage_page1::~Sondage_page1()
 
 void Sondage_page1::rajouter_valeur()
 {
-    QTableWidget* tableWidget = new QTableWidget(this);
-    tableWidget->setRowCount(10);
-    tableWidget->setColumnCount(5);
+
 }
