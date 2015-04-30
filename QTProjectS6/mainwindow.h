@@ -17,6 +17,8 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     QSqlDatabase db;
+    int last_id;
+    bool connected;
 
 private slots:
     void on_actionQuitter_triggered();
@@ -29,7 +31,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    int last_id;
     QString servername;
     QString dbname;
 };

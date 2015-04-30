@@ -10,13 +10,13 @@
 CREATE TABLE Personne(
         Id          int (11) Auto_increment  NOT NULL ,
         DateNaiss   Date NOT NULL ,
-        Sexe  Varchar (25) NOT NULL ,
+        Sexe  		Boolean NOT NULL ,
         Etat_civil  Varchar (25) NOT NULL ,
-        Nb_personne Int NOT NULL ,
+        Nb_personne Int NOT NULL,
         Nb_enfant   Int NOT NULL ,
         Nb_Animaux  Int NOT NULL ,
-        Revenu  Varchar (25) NOT NULL ,
-        admin		Boolean,
+        Revenu  	Int NOT NULL ,
+        admin		Boolean NOT NULL DEFAULT 0,
         PRIMARY KEY (Id )
 )ENGINE=InnoDB;
 

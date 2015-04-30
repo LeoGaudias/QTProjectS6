@@ -5,6 +5,7 @@
 #include <QPushButton>
 #include <QtSql>
 #include <QSqlDatabase>
+#include <QDebug>
 
 #include "mainwindow.h"
 
@@ -48,7 +49,6 @@ void AjoutPersonne::on_buttonBox_accepted()
     // gérer les exceptions
     if(p->db.open())
     {
-        cout<<"ok"<< endl;
         query.prepare("INSERT INTO Personne (DateNaiss,Sexe,Etat_civil"
                       ",Nb_personne,Nb_enfant,Nb_Animaux,Revenu)"
                         "VALUES (:date_nais, :sexe, :etat_civil,"
@@ -58,15 +58,15 @@ void AjoutPersonne::on_buttonBox_accepted()
         query.bindValue(":date_nais",date);
         if(ui->radio_homme->isChecked() && !ui->radio_femme->isChecked())
         {
-            query.bindValue(":sexe",ui->radio_homme->text().toUtf8().constData());
+            query.bindValue(":sexe",0);
         }
         else if(ui->radio_femme->isChecked() && !ui->radio_homme->isChecked())
         {
-            query.bindValue(":sexe",ui->radio_femme->text().toUtf8().constData());
+            query.bindValue(":sexe",1);
         }
         else
         {
-            cout<< "Radio button isn't checked" << endl;
+            qDebug() << "Radio button isn't checked";
             p->db.close();
             exit(0);
         }
@@ -74,26 +74,67 @@ void AjoutPersonne::on_buttonBox_accepted()
         query.bindValue(":nb_pers",ui->spin_nb_pers->text().toInt());
         query.bindValue(":nb_enfant",ui->spin_nb_enfant->text().toInt());
         query.bindValue(":nb_anim",ui->spin_nb_anim->text().toInt());
-        query.bindValue(":revenu",ui->revenu->currentText().toUtf8().constData());
-        if(query.exec())
+
+        if(ui->revenu->currentIndex()==0)
         {
-            cout<<"Query successfully executed"<<endl;
+            query.bindValue(":revenu",0);
+        }
+        else if(ui->revenu->currentIndex()==1)
+        {
+            query.bindValue(":revenu",1);
+        }
+        else if(ui->revenu->currentIndex()==2)
+        {
+            query.bindValue(":revenu",2);
+        }
+        else if(ui->revenu->currentIndex()==3)
+        {
+            query.bindValue(":revenu",3);
+        }
+        else if(ui->revenu->currentIndex()==4)
+        {
+            query.bindValue(":revenu",4);
         }
         else
         {
-            cout<<"Something goes wrong with the query"<<endl;
+            qDebug() << "no revenu select";
+            p->db.close();
+            exit(0);
+        }
+
+        if(query.exec())
+        {
+            p->connected=true;
+            query.prepare("SELECT LAST_INSERT_ID()");
+            if(query.exec())
+            {
+                query.next();
+                p->last_id=query.value(0).toLongLong();
+            }
+            else
+            {
+                qDebug() << "Something goes wrong in select" << p->db.lastError().text();
+                p->db.close();
+                exit(0);
+            }
+
+            qDebug() <<"Query successfully executed " << p->connected << " ID: "<<p->last_id;
+        }
+        else
+        {
+            qDebug() << "Something goes wrong with the query" << p->db.lastError().text();
             p->db.close();
             exit(0);
         }
     }
     else
     {
-       cout<<"!ok"<<endl;
+       qDebug() <<" not ok";
        exit(0);
     }
 }
 
 void AjoutPersonne::on_buttonBox_rejected()
 {
-    std::cout<<"rejected"<<std::endl;
+    qDebug() << "rejected";
 }

@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     last_id=0;
+    connected=false;
     //servername="127.0.0.1";
     //dbname="DB_Questionnaire";
     //QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
@@ -22,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent) :
     db.setHostName("localhost");
     db.setDatabaseName("DB_Questionnaire");
     db.setUserName("root");
-    db.setPassword("nintendo");
+    db.setPassword("root");
 
     //db.setPassword("root");
     //db.setConnectOptions();
