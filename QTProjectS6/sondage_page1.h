@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QAbstractButton>
+#include "mainwindow.h"
 
 namespace Ui {
 class Sondage_page1;
@@ -24,8 +25,13 @@ private slots:
 
     void on_buttonBox_accepted();
 
+    void on_pushButton_2_clicked();
+
+    void on_plus_clicked();
+
 private:
     Ui::Sondage_page1 *ui;
+    MainWindow* p;
 };
 
 #endif // SONDAGE_PAGE1_H

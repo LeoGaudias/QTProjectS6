@@ -42,7 +42,7 @@ void Connexion::on_pushButton_clicked()
                  p->ui->actionConnextion->setText("Se déconnecter");
                  p->last_id=query.value(0).toLongLong();
 
-                 Sondage_page1* sond_1 = new Sondage_page1();
+                 Sondage_page1* sond_1 = new Sondage_page1(p);
                  p->setCentralWidget(sond_1);
 
                  int x = sond_1->width();

@@ -19,9 +19,6 @@ MainWindow::MainWindow(QWidget *parent) :
     widget_base=centralWidget();
     last_id=0;
     connected=false;
-    //servername="127.0.0.1";
-    //dbname="DB_Questionnaire";
-    //QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
 
     // gérer les exceptions
     db = QSqlDatabase::addDatabase("QMYSQL");
@@ -29,10 +26,6 @@ MainWindow::MainWindow(QWidget *parent) :
     db.setDatabaseName("DB_Questionnaire");
     db.setUserName("root");
     db.setPassword("root");
-
-    //db.setConnectOptions();
-    //QString dsn=QString("DRIVER=(SQL Native Client);SERVER=%1;DATABASE=%2;UID=root;PWD=root;").arg(servername).arg(dbname);
-    //db.setDatabaseName(dsn);
 
     if(db.open())
     {
@@ -66,56 +59,41 @@ void MainWindow::on_actionQuitter_triggered()
 
 void MainWindow::on_actionD_connexion_triggered()
 {
-    // s'inscire ou se déconnecter
+
 }
 
 void MainWindow::on_pushButton_clicked()
 {
-    QSqlQuery query;
-    // gérer les exceptions
-    if(db.open())
-    {
-        query.prepare("SELECT Id FROM Personne WHERE Id = :id");
-        //query.bindValue(":id",ui->spinBox->value());
 
-         if(query.exec())
-         {
-             if(query.size()>0)
-             {
-                 query.next();
-                 connected=true;
-                 last_id=query.value(0).toLongLong();
-                 ui->actionConnextion->setText("Se déconnecter");
-
-                 Sondage_page1* sond_1 = new Sondage_page1();
-                 setCentralWidget(sond_1);
-
-                 int x = sond_1->width();
-                 int y = sond_1->height();
-
-                 this->resize(x,y);
-                 setWindowTitle(windowTitle()+" id: "+QString::number(last_id));
-             }
-             else
-             {
-                qDebug() << "Mauvais id";
-             }
-         }
-         else
-         {
-             qDebug() << "Something goes wrong in select" << db.lastError().text();
-             db.close();
-             exit(0);
-         }
-    }
-    else
-    {
-       qDebug() <<" not ok";
-       exit(0);
-    }
 }
 
 void MainWindow::on_pushButton_2_clicked()
 {
 
+}
+
+void MainWindow::on_actionConnextion_triggered()
+{
+    if(ui->actionConnextion->text()=="Se déconnecter")
+    {
+        ui->actionConnextion->text()=="S'inscrire";
+        connected=false;
+        Connexion *co = new Connexion(this);
+        setCentralWidget(co);
+
+        int x = co->width();
+        int y = co->height();
+
+        resize(x,y);
+    }
+    else
+    {
+        AjoutPersonne* aj_p = new AjoutPersonne(this);
+        setCentralWidget(aj_p);
+
+        int x = aj_p->width();
+        int y = aj_p->height() + 50;
+
+        resize(x,y);
+    }
 }

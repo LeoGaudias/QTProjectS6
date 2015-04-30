@@ -150,7 +150,6 @@ void AjoutPersonne::on_buttonBox_accepted()
 
 void AjoutPersonne::on_buttonBox_rejected()
 {
-    qDebug() << "rejected";
     Connexion *co = new Connexion(p);
     p->setCentralWidget(co);
 
