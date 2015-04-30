@@ -15,11 +15,16 @@ MainWindow::MainWindow(QWidget *parent) :
     last_id=0;
     //servername="127.0.0.1";
     //dbname="DB_Questionnaire";
-    QSqlDatabase db=QSqlDatabase::addDatabase("QMYSQL");
+    //QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
+
+    // gérer les exceptions
+    db = QSqlDatabase::addDatabase("QMYSQL");
     db.setHostName("localhost");
     db.setDatabaseName("DB_Questionnaire");
     db.setUserName("root");
-    db.setPassword("root");
+    db.setPassword("nintendo");
+
+    //db.setPassword("root");
     //db.setConnectOptions();
     //QString dsn=QString("DRIVER=(SQL Native Client);SERVER=%1;DATABASE=%2;UID=root;PWD=root;").arg(servername).arg(dbname);
     //db.setDatabaseName(dsn);

@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QSqlDatabase>
 #include "ajoutpersonne.h"
 
 namespace Ui {
@@ -15,6 +16,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    QSqlDatabase db;
 
 private slots:
     void on_actionQuitter_triggered();

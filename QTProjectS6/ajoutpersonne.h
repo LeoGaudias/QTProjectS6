@@ -3,10 +3,15 @@
 
 #include <QWidget>
 #include <QAbstractButton>
+#include <QSqlDatabase>
+//#include "mainwindow.h"
 
 namespace Ui {
 class AjoutPersonne;
+
 }
+
+class MainWindow;
 
 class AjoutPersonne : public QWidget
 {
@@ -25,6 +30,7 @@ private slots:
 
 private:
     Ui::AjoutPersonne *ui;
+    MainWindow* p;
 };
 
 #endif // AJOUTPERSONNE_H
