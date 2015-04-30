@@ -13,12 +13,16 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     last_id=0;
-    servername="localhost";
-    dbname="DB_Questionnaire";
+    //servername="127.0.0.1";
+    //dbname="DB_Questionnaire";
     QSqlDatabase db=QSqlDatabase::addDatabase("QMYSQL");
-    db.setConnectOptions();
-    QString dsn=QString("DRIVER=(SQL Native Client);SERVER=%1;DATABASE=%2;UID=root;PWD=root;").arg(servername).arg(dbname);
-    db.setDatabaseName(dsn);
+    db.setHostName("localhost");
+    db.setDatabaseName("DB_Questionnaire");
+    db.setUserName("root");
+    db.setPassword("root");
+    //db.setConnectOptions();
+    //QString dsn=QString("DRIVER=(SQL Native Client);SERVER=%1;DATABASE=%2;UID=root;PWD=root;").arg(servername).arg(dbname);
+    //db.setDatabaseName(dsn);
 
     if(db.open())
     {
