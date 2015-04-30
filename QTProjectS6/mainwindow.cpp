@@ -1,7 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "ajoutpersonne.h"
-#include "sondage_page1.h"
+
+#include "connexion.h"
+#include "ui_connexion.h"
+
 #include <QDesktopWidget>
 #include <QSqlDatabase>
 #include <QDebug>
@@ -39,6 +41,15 @@ MainWindow::MainWindow(QWidget *parent) :
     {
         qDebug() << "Erreur = " << db.lastError().text();
     }
+
+    Connexion* co = new Connexion(this);
+    setCentralWidget(co);
+
+    int x = co->width();
+    int y = co->height();
+
+    resize(x,y);
+
 }
 
 MainWindow::~MainWindow()
@@ -58,55 +69,10 @@ void MainWindow::on_actionD_connexion_triggered()
 
 void MainWindow::on_pushButton_clicked()
 {
-    QSqlQuery query;
-    // gérer les exceptions
-    if(db.open())
-    {
-        query.prepare("SELECT Id FROM Personne WHERE Id = :id");
-        query.bindValue(":id",ui->spinBox->value());
 
-         if(query.exec())
-         {
-             if(query.size()>0)
-             {
-                 query.next();
-                 connected=true;
-                 last_id=query.value(0).toLongLong();
-
-                 Sondage_page1* sond_1 = new Sondage_page1();
-                 setCentralWidget(sond_1);
-
-                 int x = sond_1->width();
-                 int y = sond_1->height();
-
-                 this->resize(x,y);
-             }
-             else
-             {
-                qDebug() << "Mauvais id";
-             }
-         }
-         else
-         {
-             qDebug() << "Something goes wrong in select" << db.lastError().text();
-             db.close();
-             exit(0);
-         }
-    }
-    else
-    {
-       qDebug() <<" not ok";
-       exit(0);
-    }
 }
 
 void MainWindow::on_pushButton_2_clicked()
 {
-    AjoutPersonne* aj_p = new AjoutPersonne(this);
-    setCentralWidget(aj_p);
 
-    int x = aj_p->width();
-    int y = aj_p->height();
-
-    this->resize(x,y);
 }

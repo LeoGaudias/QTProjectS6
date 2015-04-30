@@ -1,5 +1,15 @@
 #include "ajoutpersonne.h"
 #include "ui_ajoutpersonne.h"
+
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+
+#include "sondage_page1.h"
+#include "ui_sondage_page1.h"
+
+#include "connexion.h"
+#include "ui_connexion.h"
+
 #include "iostream"
 
 #include <QPushButton>
@@ -8,8 +18,7 @@
 #include <QDebug>
 #include "ui_mainwindow.h"
 
-#include "mainwindow.h"
-#include "sondage_page1.h"
+
 
 using namespace std;
 
@@ -142,10 +151,23 @@ void AjoutPersonne::on_buttonBox_accepted()
 void AjoutPersonne::on_buttonBox_rejected()
 {
     qDebug() << "rejected";
+    Connexion *co = new Connexion(p);
+    p->setCentralWidget(co);
+
+    int x = co->width();
+    int y = co->height();
+
+    p->resize(x,y);
 }
 
 void AjoutPersonne::connection_ok()
 {
     p->setWindowTitle(p->windowTitle()+" id: "+p->last_id);
-    p->setCentralWidget(new Sondage_page1(this));
+    Sondage_page1 *sond_1 = new Sondage_page1(p);
+    p->setCentralWidget(sond_1);
+
+    int x = sond_1->width();
+    int y = sond_1->height();
+
+    p->resize(x,y);
 }
