@@ -6,6 +6,7 @@
 #include <QSqlDatabase>
 #include <QDebug>
 #include <QSqlError>
+#include <QtSql>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -57,13 +58,46 @@ void MainWindow::on_actionD_connexion_triggered()
 
 void MainWindow::on_pushButton_clicked()
 {
-    Sondage_page1* sond_1 = new Sondage_page1();
-    setCentralWidget(sond_1);
+    QSqlQuery query;
+    // gérer les exceptions
+    if(db.open())
+    {
+        query.prepare("SELECT Id FROM Personne WHERE Id = :id");
+        query.bindValue(":id",ui->spinBox->value());
 
-    int x = sond_1->width();
-    int y = sond_1->height();
+         if(query.exec())
+         {
+             if(query.size()>0)
+             {
+                 query.next();
+                 connected=true;
+                 last_id=query.value(0).toLongLong();
 
-    this->resize(x,y);
+                 Sondage_page1* sond_1 = new Sondage_page1();
+                 setCentralWidget(sond_1);
+
+                 int x = sond_1->width();
+                 int y = sond_1->height();
+
+                 this->resize(x,y);
+             }
+             else
+             {
+                qDebug() << "Mauvais id";
+             }
+         }
+         else
+         {
+             qDebug() << "Something goes wrong in select" << db.lastError().text();
+             db.close();
+             exit(0);
+         }
+    }
+    else
+    {
+       qDebug() <<" not ok";
+       exit(0);
+    }
 }
 
 void MainWindow::on_pushButton_2_clicked()

@@ -28,6 +28,8 @@ private slots:
 
     void on_buttonBox_rejected();
 
+    void connection_ok();
+
 private:
     Ui::AjoutPersonne *ui;
     MainWindow* p;

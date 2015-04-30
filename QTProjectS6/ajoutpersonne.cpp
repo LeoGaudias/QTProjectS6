@@ -6,8 +6,10 @@
 #include <QtSql>
 #include <QSqlDatabase>
 #include <QDebug>
+#include "ui_mainwindow.h"
 
 #include "mainwindow.h"
+#include "sondage_page1.h"
 
 using namespace std;
 
@@ -109,7 +111,10 @@ void AjoutPersonne::on_buttonBox_accepted()
             if(query.exec())
             {
                 query.next();
+                p->ui->actionConnextion->setText("Se déconnecter");
                 p->last_id=query.value(0).toLongLong();
+                connection_ok();
+
             }
             else
             {
@@ -118,7 +123,7 @@ void AjoutPersonne::on_buttonBox_accepted()
                 exit(0);
             }
 
-            qDebug() <<"Query successfully executed " << p->connected << " ID: "<<p->last_id;
+            //qDebug() <<"Query successfully executed " << p->connected << " ID: "<<p->last_id;
         }
         else
         {
@@ -137,4 +142,10 @@ void AjoutPersonne::on_buttonBox_accepted()
 void AjoutPersonne::on_buttonBox_rejected()
 {
     qDebug() << "rejected";
+}
+
+void AjoutPersonne::connection_ok()
+{
+    p->setWindowTitle(p->windowTitle()+" id: "+p->last_id);
+    p->setCentralWidget(new Sondage_page1(this));
 }

@@ -181,7 +181,7 @@
     <property name="title">
      <string>Session</string>
     </property>
-    <addaction name="actionD_connexion"/>
+    <addaction name="actionConnextion"/>
     <addaction name="separator"/>
     <addaction name="actionQuitter"/>
    </widget>
@@ -196,7 +196,7 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
-  <action name="actionD_connexion">
+  <action name="actionConnextion">
    <property name="text">
     <string>S'inscire</string>
    </property>
