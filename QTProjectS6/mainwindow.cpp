@@ -25,7 +25,6 @@ MainWindow::MainWindow(QWidget *parent) :
     db.setUserName("root");
     db.setPassword("root");
 
-    //db.setPassword("root");
     //db.setConnectOptions();
     //QString dsn=QString("DRIVER=(SQL Native Client);SERVER=%1;DATABASE=%2;UID=root;PWD=root;").arg(servername).arg(dbname);
     //db.setDatabaseName(dsn);
@@ -58,18 +57,22 @@ void MainWindow::on_actionD_connexion_triggered()
 
 void MainWindow::on_pushButton_clicked()
 {
-    AjoutPersonne* aj_p=new AjoutPersonne();
-    aj_p->show();
+    Sondage_page1* sond_1 = new Sondage_page1();
+    setCentralWidget(sond_1);
 
-    Sondage_page1* sond_1=new Sondage_page1();
-    sond_1->show();
+    int x = sond_1->width();
+    int y = sond_1->height();
+
+    this->resize(x,y);
 }
 
 void MainWindow::on_pushButton_2_clicked()
 {
-    setCentralWidget(new AjoutPersonne(this));
-    QDesktopWidget dw;
-    int x=dw.width()*0.7;
-    int y=dw.height()*0.7;
-    this->setFixedSize(x,y);
+    AjoutPersonne* aj_p = new AjoutPersonne(this);
+    setCentralWidget(aj_p);
+
+    int x = aj_p->width();
+    int y = aj_p->height();
+
+    this->resize(x,y);
 }
