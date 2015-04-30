@@ -162,7 +162,6 @@ void AjoutPersonne::on_buttonBox_rejected()
 
 void AjoutPersonne::connection_ok()
 {
-    p->setWindowTitle(p->windowTitle()+" id: "+p->last_id);
     Sondage_page1 *sond_1 = new Sondage_page1(p);
     p->setCentralWidget(sond_1);
 
@@ -170,4 +169,5 @@ void AjoutPersonne::connection_ok()
     int y = sond_1->height();
 
     p->resize(x,y);
+    p->setWindowTitle(p->windowTitle()+" id: "+QString::number(p->last_id));
 }

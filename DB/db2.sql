@@ -29,7 +29,7 @@ CREATE TABLE Yaourt(
         IdY    int (11) Auto_increment  NOT NULL ,
         Marque Varchar (50) NOT NULL ,
         Nom    Varchar (50) NOT NULL ,
-        Type   Varchar (50) NOT NULL ,
+        Type   Varchar (50) ,
         Gout   Varchar (50) NOT NULL ,
         PRIMARY KEY (IdY )
 )ENGINE=InnoDB;

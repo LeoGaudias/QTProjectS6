@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QAbstractButton>
 #include <QSqlDatabase>
-//#include "mainwindow.h"
+#include "mainwindow.h"
 
 namespace Ui {
 class AjoutPersonne;

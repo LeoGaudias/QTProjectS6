@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 
 #include "connexion.h"
+#include "sondage_page1.h"
 #include "ui_connexion.h"
 
 #include <QDesktopWidget>
@@ -15,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    widget_base=centralWidget();
     last_id=0;
     connected=false;
     //servername="127.0.0.1";
@@ -69,7 +71,48 @@ void MainWindow::on_actionD_connexion_triggered()
 
 void MainWindow::on_pushButton_clicked()
 {
+    QSqlQuery query;
+    // gérer les exceptions
+    if(db.open())
+    {
+        query.prepare("SELECT Id FROM Personne WHERE Id = :id");
+        //query.bindValue(":id",ui->spinBox->value());
 
+         if(query.exec())
+         {
+             if(query.size()>0)
+             {
+                 query.next();
+                 connected=true;
+                 last_id=query.value(0).toLongLong();
+                 ui->actionConnextion->setText("Se déconnecter");
+
+                 Sondage_page1* sond_1 = new Sondage_page1();
+                 setCentralWidget(sond_1);
+
+                 int x = sond_1->width();
+                 int y = sond_1->height();
+
+                 this->resize(x,y);
+                 setWindowTitle(windowTitle()+" id: "+QString::number(last_id));
+             }
+             else
+             {
+                qDebug() << "Mauvais id";
+             }
+         }
+         else
+         {
+             qDebug() << "Something goes wrong in select" << db.lastError().text();
+             db.close();
+             exit(0);
+         }
+    }
+    else
+    {
+       qDebug() <<" not ok";
+       exit(0);
+    }
 }
 
 void MainWindow::on_pushButton_2_clicked()

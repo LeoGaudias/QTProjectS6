@@ -2,6 +2,7 @@
 #define SONDAGE_PAGE1_H
 
 #include <QWidget>
+#include <QAbstractButton>
 
 namespace Ui {
 class Sondage_page1;
@@ -15,6 +16,13 @@ public:
     explicit Sondage_page1(QWidget *parent = 0);
     ~Sondage_page1();
     void rajouter_valeur();
+
+private slots:
+    void on_buttonBox_clicked(QAbstractButton *button);
+
+    void on_buttonBox_rejected();
+
+    void on_buttonBox_accepted();
 
 private:
     Ui::Sondage_page1 *ui;

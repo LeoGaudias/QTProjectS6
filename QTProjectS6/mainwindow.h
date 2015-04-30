@@ -20,6 +20,7 @@ public:
     QSqlDatabase db;
     int last_id;
     bool connected;
+    QWidget *widget_base;
 
 private slots:
     void on_actionQuitter_triggered();

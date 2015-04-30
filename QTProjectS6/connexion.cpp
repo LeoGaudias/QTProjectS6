@@ -1,5 +1,6 @@
 #include "connexion.h"
 #include "ui_connexion.h"
+#include "ui_mainwindow.h"
 
 #include "iostream"
 
@@ -38,6 +39,7 @@ void Connexion::on_pushButton_clicked()
              {
                  query.next();
                  p->connected=true;
+                 p->ui->actionConnextion->setText("Se déconnecter");
                  p->last_id=query.value(0).toLongLong();
 
                  Sondage_page1* sond_1 = new Sondage_page1();
