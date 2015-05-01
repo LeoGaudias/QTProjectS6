@@ -76,7 +76,7 @@ void MainWindow::on_actionConnextion_triggered()
 {
     if(ui->actionConnextion->text()=="Se déconnecter")
     {
-        ui->actionConnextion->text()=="S'inscrire";
+        ui->actionConnextion->setText("S'inscrire");
         connected=false;
         Connexion *co = new Connexion(this);
         setCentralWidget(co);

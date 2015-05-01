@@ -32,6 +32,7 @@ private slots:
 private:
     Ui::Sondage_page1 *ui;
     MainWindow* p;
+    int row;
 };
 
 #endif // SONDAGE_PAGE1_H
