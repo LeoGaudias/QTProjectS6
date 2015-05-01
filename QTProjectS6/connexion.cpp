@@ -1,11 +1,15 @@
 #include "connexion.h"
 #include "ui_connexion.h"
-#include "ui_mainwindow.h"
-
-#include "iostream"
 
 #include "mainwindow.h"
+#include "ui_mainwindow.h"
+
 #include "sondage_page1.h"
+#include "ui_sondage_page1.h"
+
+#include "resultats.h"
+
+#include "iostream"
 
 #include <QDebug>
 #include <QSqlError>
@@ -76,6 +80,17 @@ void Connexion::on_pushButton_2_clicked()
 
     int x = aj_p->width();
     int y = aj_p->height() + 50;
+
+    p->resize(x,y);
+}
+
+void Connexion::on_Result_clicked()
+{
+    Resultats* result = new Resultats(p);
+    p->setCentralWidget(result);
+
+    int x = result->width();
+    int y = result->height();
 
     p->resize(x,y);
 }

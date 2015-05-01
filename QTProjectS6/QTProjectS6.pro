@@ -17,14 +17,21 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     ajoutpersonne.cpp \
     sondage_page1.cpp \
-    connexion.cpp
+    connexion.cpp \
+    resultats.cpp \
+    qcustomplot/qcustomplot.cpp
 
 HEADERS  += mainwindow.h \
     ajoutpersonne.h \
     sondage_page1.h \
-    connexion.h
+    connexion.h \
+    resultats.h \
+    qcustomplot/qcustomplot.h
 
 FORMS    += mainwindow.ui \
     sondage_page1.ui \
     ajoutpersonne.ui \
-    connexion.ui
+    connexion.ui \
+    resultats.ui
+
+OTHER_FILES +=
