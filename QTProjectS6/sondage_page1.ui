@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Page 1 /4</string>
+    <string>Page 1 /2</string>
    </property>
   </widget>
   <widget class="QDialogButtonBox" name="buttonBox">

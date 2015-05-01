@@ -5,6 +5,8 @@
 #include <QPushButton>
 #include <QSqlQuery>
 #include <QLineEdit>
+#include "sondage_merci.h"
+#include <QtSql>
 
 sondage_page2::sondage_page2(QWidget *parent) :
     QWidget(parent),
@@ -33,7 +35,6 @@ sondage_page2::sondage_page2(QWidget *parent) :
                     if(query.value("Type").toString()!=NULL)
                     {
                         check=new QCheckBox(query.value("Marque").toString()+" "+query.value("Nom").toString()+" "+query.value("Type").toString()+", au goût"+query.value("Gout").toString());
-
                     }
                     else
                     {
@@ -107,7 +108,55 @@ void sondage_page2::on_buttonBox_clicked(QAbstractButton *button)
     }
     else if(button==ui->buttonBox->button(QDialogButtonBox::Ok)) // suivant
     {
-        qDebug()<<"next";
+        QSqlQuery query;
+        // gérer les exceptions
+        if(p->db.open())
+        {
+            vector<vector<QObject*> >::iterator it;
+            for(it=objets.begin();it!=objets.end();it++)
+            {
+                qDebug() << ((QCheckBox*)(*it).at(0))->text();
+                query.prepare("UPDATE Sondage SET Est_achete= :achete, frequence= :freq WHERE IdY= :idY");
+
+
+                if(((QCheckBox*)(*it).at(0))->isChecked())
+                {
+                    qDebug()<< "checked";
+                    query.bindValue(":achete",1);
+                }
+                else
+                {
+                    query.bindValue(":achete",0);
+                }
+
+                query.bindValue(":freq",0); // not working
+                query.bindValue(":idY",checks_id.at(it-objets.begin()));
+
+                if(query.exec())
+                {
+                    qDebug()<< "Worked";
+                }
+                else
+                {
+                    qDebug() << "Something goes wrong with the query" << p->db.lastError().text();
+                    p->db.close();
+                    exit(0);
+                }
+            }
+        }
+        else
+        {
+           qDebug() <<" not ok";
+           exit(0);
+        }
+
+        Sondage_merci* sond_m = new Sondage_merci(p);
+        p->setCentralWidget(sond_m);
+
+        int x = sond_m->width();
+        int y = sond_m->height()+50;
+
+        p->resize(x,y);
     }
     else // annuler
     {

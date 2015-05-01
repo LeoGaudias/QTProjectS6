@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Page 2 /4</string>
+    <string>Page 2 /2</string>
    </property>
   </widget>
   <widget class="QWidget" name="verticalLayoutWidget">
