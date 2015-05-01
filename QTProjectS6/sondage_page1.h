@@ -42,6 +42,7 @@ private:
     Ui::Sondage_page1 *ui;
     MainWindow* p;
     int row;
+    bool inserted;
 };
 
 #endif // SONDAGE_PAGE1_H

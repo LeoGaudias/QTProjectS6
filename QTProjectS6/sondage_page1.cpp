@@ -12,6 +12,7 @@ Sondage_page1::Sondage_page1(QWidget *parent) :
     ui(new Ui::Sondage_page1)
 {
     p = (MainWindow*) parent;
+    inserted=false;
     row = 2;
     ui->setupUi(this);
 
@@ -35,7 +36,7 @@ Sondage_page1::Sondage_page1(QWidget *parent) :
     // gérer les exceptions
     if(p->db.open())
     {
-        query.prepare("SELECT * FROM Yaourt");
+        query.prepare("SELECT *, CASE WHEN EXISTS (SELECT * FROM Sondage s WHERE y.IdY=s.IdY) THEN 1 ELSE 0 END AS 'Present' FROM Yaourt y");
         if(query.exec())
         {
             if(query.size()>0)
@@ -52,6 +53,12 @@ Sondage_page1::Sondage_page1(QWidget *parent) :
                     else
                     {
                         check=new QCheckBox(query.value("Marque").toString()+" "+query.value("Nom").toString()+", au goût "+query.value("Gout").toString());
+                    }
+
+                    if(query.value("Present").toLongLong()==1)
+                    {
+                        check->setChecked(true);
+                        inserted=true;
                     }
                     checks.push_back(check);
                     checks_id.push_back(query.value("IdY").toLongLong());
@@ -99,26 +106,67 @@ void Sondage_page1::on_buttonBox_accepted()
     {
         vector<QCheckBox*>::iterator it;
         bool select=false;
-        for(it=checks.begin();it!=checks.end();it++)
-        {
-            if((*it)->isChecked())
-            {
-                select=true;
-                qDebug()<<"checked"<<(*it)->text();
-                query.prepare("INSERT INTO Sondage VALUES (NULL, 0, :id, :idY)");
-                query.bindValue(":id",p->last_id);
-                query.bindValue(":idY",checks_id.at(it-checks.begin()));
 
-                if(query.exec())
+        if(inserted==false)
+        {
+            for(it=checks.begin();it!=checks.end();it++)
+            {
+                if((*it)->isChecked())
                 {
-                    qDebug() << "It worked";
+                    select=true;
+                    qDebug()<<"checked"<<(*it)->text();
+                    query.prepare("INSERT INTO Sondage VALUES (NULL, 0, :id, :idY)");
+                    query.bindValue(":id",p->last_id);
+                    query.bindValue(":idY",checks_id.at(it-checks.begin()));
+
+                    if(query.exec())
+                    {
+                        qDebug() << "It worked";
+                    }
+                    else
+                    {
+                        qDebug() << "Something goes wrong with the query" << p->db.lastError().text();
+                        p->db.close();
+                        exit(0);
+                    }
                 }
-                else
+            }
+        }
+        else
+        {
+            query.prepare("DELETE FROM Sondage WHERE Id= :id");
+            query.bindValue(":id",p->last_id);
+
+            if(query.exec())
+            {
+                for(it=checks.begin();it!=checks.end();it++)
                 {
-                    qDebug() << "Something goes wrong with the query" << p->db.lastError().text();
-                    p->db.close();
-                    exit(0);
+                    if((*it)->isChecked())
+                    {
+                        select=true;
+                        qDebug()<<"checked"<<(*it)->text();
+                        query.prepare("INSERT INTO Sondage VALUES (NULL, 0, :id, :idY)");
+                        query.bindValue(":id",p->last_id);
+                        query.bindValue(":idY",checks_id.at(it-checks.begin()));
+
+                        if(query.exec())
+                        {
+                            qDebug() << "It worked insert after delete";
+                        }
+                        else
+                        {
+                            qDebug() << "Something goes wrong with the query" << p->db.lastError().text();
+                            p->db.close();
+                            exit(0);
+                        }
+                    }
                 }
+            }
+            else
+            {
+                qDebug() << "Something goes wrong with the delete query" << p->db.lastError().text();
+                p->db.close();
+                exit(0);
             }
         }
 
