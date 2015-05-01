@@ -5,6 +5,7 @@
 #include <QSqlQuery>
 #include <QLineEdit>
 #include "sondage_page2.h"
+#include <QtSql>
 
 Sondage_page1::Sondage_page1(QWidget *parent) :
     QWidget(parent),
@@ -53,6 +54,7 @@ Sondage_page1::Sondage_page1(QWidget *parent) :
                         check=new QCheckBox(query.value("Marque").toString()+" "+query.value("Nom").toString()+", au goût "+query.value("Gout").toString());
                     }
                     checks.push_back(check);
+                    checks_id.push_back(query.value("IdY").toLongLong());
                     ui->verticalLayout->addWidget(check);
                 }
             }
@@ -96,15 +98,34 @@ void Sondage_page1::on_buttonBox_accepted()
     if(p->db.open())
     {
         vector<QCheckBox*>::iterator it;
+        bool select=false;
         for(it=checks.begin();it!=checks.end();it++)
         {
             if((*it)->isChecked())
             {
+                select=true;
                 qDebug()<<"checked"<<(*it)->text();
-                /*query.prepare("INSERT INTO Sondage"
-                                        "VALUES (:connu, NULL, NULL, NULL, :id,:id_y)");
-                query.bindValue(":connu",);*/
+                query.prepare("INSERT INTO Sondage VALUES (NULL, 0, :id, :idY)");
+                query.bindValue(":id",p->last_id);
+                query.bindValue(":idY",checks_id.at(it-checks.begin()));
+
+                if(query.exec())
+                {
+                    qDebug() << "It worked";
+                }
+                else
+                {
+                    qDebug() << "Something goes wrong with the query" << p->db.lastError().text();
+                    p->db.close();
+                    exit(0);
+                }
             }
+        }
+
+        if(select==false)
+        {
+            qDebug()<< "Nothing selected";
+            // Gérer le fait de le redirect à la dernière page;
         }
     }
     else

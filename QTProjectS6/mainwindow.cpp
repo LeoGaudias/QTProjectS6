@@ -82,7 +82,7 @@ void MainWindow::on_actionConnextion_triggered()
         setCentralWidget(co);
 
         int x = co->width();
-        int y = co->height();
+        int y = co->height()+50;
 
         resize(x,y);
     }

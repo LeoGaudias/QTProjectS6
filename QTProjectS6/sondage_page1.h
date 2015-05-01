@@ -23,6 +23,7 @@ public:
     void rajouter_valeur();
     vector<vector<QObject*> > objets;
     vector<QCheckBox*> checks;
+    vector<int> checks_id;
 
 private slots:
     void on_buttonBox_clicked(QAbstractButton *button);
