@@ -4,6 +4,10 @@
 #include <QMainWindow>
 #include <QSqlDatabase>
 #include "ajoutpersonne.h"
+#include <iostream>
+#include <fstream>
+
+using namespace std;
 
 namespace Ui {
 class MainWindow;
@@ -21,6 +25,7 @@ public:
     int last_id;
     bool connected;
     QWidget *widget_base;
+    fstream myfile;
 
 private slots:
     void on_actionQuitter_triggered();

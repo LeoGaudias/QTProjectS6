@@ -20,6 +20,8 @@ Sondage_merci::~Sondage_merci()
 
 void Sondage_merci::on_buttonBox_accepted()
 {
+    p->myfile.close();
+    p->db.close();
     exit(0);
 }
 

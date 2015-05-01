@@ -20,6 +20,8 @@ MainWindow::MainWindow(QWidget *parent) :
     last_id=0;
     connected=false;
 
+    myfile.open("../last");
+
     // gérer les exceptions
     db = QSqlDatabase::addDatabase("QMYSQL");
     db.setHostName("localhost");
@@ -54,6 +56,11 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_actionQuitter_triggered()
 {
+    if(db.open())
+    {
+        db.close();
+    }
+    myfile.close();
     close();
 }
 

@@ -10,10 +10,14 @@
 #include "resultats.h"
 
 #include "iostream"
+#include <fstream>
 
 #include <QDebug>
 #include <QSqlError>
 #include <QtSql>
+#include <string>
+
+using namespace std;
 
 Connexion::Connexion(QWidget *parent) :
     QWidget(parent),
@@ -21,6 +25,10 @@ Connexion::Connexion(QWidget *parent) :
 {
     p = (MainWindow*) parent;
     ui->setupUi(this);
+
+    string line;
+    getline(p->myfile,line);;
+    ui->spinBox->setValue(atoi(line.c_str()));
 }
 
 Connexion::~Connexion()
@@ -61,6 +69,13 @@ void Connexion::on_connecter_clicked()
                  p->connected=true;
                  p->ui->actionConnextion->setText("Se déconnecter");
                  p->last_id=query.value(0).toLongLong();
+
+                 p->myfile.close();
+                 p->myfile.open("../last", std::fstream::out | std::fstream::trunc);
+                 p->myfile.close();
+                 p->myfile.open("../last");
+                 p->myfile << p->last_id;
+
                  p->setWindowTitle(p->windowTitle()+" id: "+QString::number(p->last_id));
 
                  Sondage_page1* sond_1 = new Sondage_page1(p);

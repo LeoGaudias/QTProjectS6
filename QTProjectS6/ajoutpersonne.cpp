@@ -122,6 +122,13 @@ void AjoutPersonne::on_buttonBox_accepted()
                 query.next();
                 p->ui->actionConnextion->setText("Se déconnecter");
                 p->last_id=query.value(0).toLongLong();
+
+                p->myfile.close();
+                p->myfile.open("../last", std::fstream::out | std::fstream::trunc);
+                p->myfile.close();
+                p->myfile.open("../last");
+                p->myfile << p->last_id;
+
                 connection_ok();
 
             }

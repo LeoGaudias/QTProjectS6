@@ -40,6 +40,11 @@ sondage_page2::sondage_page2(QWidget *parent) :
                     {
                         check=new QCheckBox(query.value("Marque").toString()+" "+query.value("Nom").toString()+", au goût "+query.value("Gout").toString());
                     }
+
+                    if(query.value("Est_achete").toLongLong()==1)
+                    {
+                        check->setChecked(true);
+                    }
                     ui->gridLayout->addWidget(check,row,0,Qt::AlignHCenter);
 
                     checks_id.push_back(query.value("IdY").toLongLong());
@@ -66,6 +71,7 @@ sondage_page2::sondage_page2(QWidget *parent) :
 
 void sondage_page2::checked(int state)
 {
+    // très broken
     if(state==2) // checked
     {
         QLineEdit* edit=new QLineEdit();
