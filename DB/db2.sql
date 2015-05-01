@@ -40,9 +40,8 @@ CREATE TABLE Yaourt(
 #------------------------------------------------------------
 
 CREATE TABLE Sondage(
-        Est_connu  Bool ,
         Est_achete Bool ,
-        frequence  Int ,
+        frequence  Int DEFAULT 0,
         Id         Int NOT NULL ,
         IdY        Int NOT NULL ,
         PRIMARY KEY (Id ,IdY )

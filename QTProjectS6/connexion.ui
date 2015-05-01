@@ -133,14 +133,14 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_2">
+       <widget class="QPushButton" name="inscrire">
         <property name="text">
          <string>S'inscrire</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="connecter">
         <property name="text">
          <string>Se connecter</string>
         </property>

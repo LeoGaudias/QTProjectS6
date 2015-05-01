@@ -6,6 +6,7 @@
 
 QT       += core gui
 QT       += sql
+QT       += printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -19,19 +20,20 @@ SOURCES += main.cpp\
     sondage_page1.cpp \
     connexion.cpp \
     resultats.cpp \
-    qcustomplot/qcustomplot.cpp
+    qcustomplot/qcustomplot.cpp \
+    sondage_page2.cpp
 
 HEADERS  += mainwindow.h \
     ajoutpersonne.h \
     sondage_page1.h \
     connexion.h \
     resultats.h \
-    qcustomplot/qcustomplot.h
+    qcustomplot/qcustomplot.h \
+    sondage_page2.h
 
 FORMS    += mainwindow.ui \
     sondage_page1.ui \
     ajoutpersonne.ui \
     connexion.ui \
-    resultats.ui
-
-OTHER_FILES +=
+    resultats.ui \
+    sondage_page2.ui

@@ -10,12 +10,12 @@ Resultats::Resultats(QWidget *parent) :
     p = (MainWindow*) parent;
     ui->setupUi(this);
 
-    QQuickView *qmlView = new QQuickView;
+    /*QQuickView *qmlView = new QQuickView;
     qmlView->setSource(QUrl::fromLocalFile("../QTProjectS6/graph.qml"));
 
     QWidget *container = QWidget::createWindowContainer(qmlView);
 
-    ui->verticalLayout->addWidget(container);
+    ui->verticalLayout->addWidget(container);*/
 }
 
 Resultats::~Resultats()

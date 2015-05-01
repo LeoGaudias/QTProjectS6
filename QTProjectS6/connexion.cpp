@@ -30,6 +30,22 @@ Connexion::~Connexion()
 
 void Connexion::on_pushButton_clicked()
 {
+
+}
+
+void Connexion::on_inscrire_clicked()
+{
+    AjoutPersonne* aj_p = new AjoutPersonne(p);
+    p->setCentralWidget(aj_p);
+
+    int x = aj_p->width();
+    int y = aj_p->height() + 50;
+
+    p->resize(x,y);
+}
+
+void Connexion::on_connecter_clicked()
+{
     QSqlQuery query;
     // gérer les exceptions
     if(p->db.open())
@@ -45,12 +61,13 @@ void Connexion::on_pushButton_clicked()
                  p->connected=true;
                  p->ui->actionConnextion->setText("Se déconnecter");
                  p->last_id=query.value(0).toLongLong();
+                 p->setWindowTitle(p->windowTitle()+" id: "+QString::number(p->last_id));
 
                  Sondage_page1* sond_1 = new Sondage_page1(p);
                  p->setCentralWidget(sond_1);
 
                  int x = sond_1->width();
-                 int y = sond_1->height();
+                 int y = sond_1->height()+50;
 
                  p->resize(x,y);
              }

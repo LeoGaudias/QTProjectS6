@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>773</width>
-    <height>391</height>
+    <width>760</width>
+    <height>346</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,9 +29,9 @@
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>580</x>
-     <y>320</y>
-     <width>181</width>
+     <x>490</x>
+     <y>300</y>
+     <width>231</width>
      <height>31</height>
     </rect>
    </property>
@@ -43,8 +43,8 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>50</y>
-     <width>753</width>
+     <y>30</y>
+     <width>711</width>
      <height>261</height>
     </rect>
    </property>
@@ -78,6 +78,9 @@
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="1">
        <widget class="QLabel" name="Marque">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
         <property name="layoutDirection">
          <enum>Qt::LeftToRight</enum>
         </property>
@@ -91,11 +94,17 @@
       </item>
       <item row="1" column="0">
        <widget class="QLabel" name="autre">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="text">
          <string>Autre</string>
         </property>
         <property name="alignment">
-         <set>Qt::AlignCenter</set>
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
        </widget>
       </item>
@@ -108,22 +117,6 @@
          <set>Qt::AlignCenter</set>
         </property>
        </widget>
-      </item>
-      <item row="0" column="0">
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Fixed</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>50</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
       </item>
       <item row="0" column="3">
        <widget class="QLabel" name="Type">
@@ -157,7 +150,23 @@
       <item row="1" column="3">
        <widget class="QLineEdit" name="autre_type"/>
       </item>
-      <item row="0" column="5">
+      <item row="0" column="0">
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>50</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="1" column="5">
        <widget class="QPushButton" name="plus">
         <property name="enabled">
          <bool>true</bool>

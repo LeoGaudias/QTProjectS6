@@ -3,7 +3,8 @@
 #include <QAbstractButton>
 #include <QDebug>
 #include <QSqlQuery>
-#include <QCheckBox>
+#include <QLineEdit>
+#include "sondage_page2.h"
 
 Sondage_page1::Sondage_page1(QWidget *parent) :
     QWidget(parent),
@@ -12,7 +13,22 @@ Sondage_page1::Sondage_page1(QWidget *parent) :
     p = (MainWindow*) parent;
     row = 2;
     ui->setupUi(this);
+
+    ui->Marque->hide();
+    ui->autre_mq->hide();
+    ui->Nom->hide();
+    ui->autre_nm->hide();
+    ui->Type->hide();
+    ui->autre_type->hide();
+    ui->Gout->hide();
+    ui->autre_gout->hide();
+    row--;
+
+    ui->buttonBox->button(QDialogButtonBox::Abort)->setText("Annuler");
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setText("Page suivante >>");
+
     Sondage_page1::rajouter_valeur();
+    checks.clear();
 
     QSqlQuery query;
     // gérer les exceptions
@@ -26,6 +42,7 @@ Sondage_page1::Sondage_page1(QWidget *parent) :
                 while(query.next())
                 {
                     QCheckBox* check;
+
                     if(query.value("Type").toString()!=NULL)
                     {
                         check=new QCheckBox(query.value("Marque").toString()+" "+query.value("Nom").toString()+" "+query.value("Type").toString()+", au goût"+query.value("Gout").toString());
@@ -35,6 +52,7 @@ Sondage_page1::Sondage_page1(QWidget *parent) :
                     {
                         check=new QCheckBox(query.value("Marque").toString()+" "+query.value("Nom").toString()+", au goût "+query.value("Gout").toString());
                     }
+                    checks.push_back(check);
                     ui->verticalLayout->addWidget(check);
                 }
             }
@@ -73,7 +91,35 @@ void Sondage_page1::on_buttonBox_rejected()
 
 void Sondage_page1::on_buttonBox_accepted()
 {
-    qDebug()<<"accepted";
+    QSqlQuery query;
+    // gérer les exceptions
+    if(p->db.open())
+    {
+        vector<QCheckBox*>::iterator it;
+        for(it=checks.begin();it!=checks.end();it++)
+        {
+            if((*it)->isChecked())
+            {
+                qDebug()<<"checked"<<(*it)->text();
+                /*query.prepare("INSERT INTO Sondage"
+                                        "VALUES (:connu, NULL, NULL, NULL, :id,:id_y)");
+                query.bindValue(":connu",);*/
+            }
+        }
+    }
+    else
+    {
+       qDebug() <<" not ok";
+       exit(0);
+    }
+
+    sondage_page2* sond_2 = new sondage_page2(p);
+    p->setCentralWidget(sond_2);
+
+    int x = sond_2->width();
+    int y = sond_2->height()+50;
+
+    p->resize(x,y);
 }
 
 void Sondage_page1::on_pushButton_2_clicked()
@@ -83,22 +129,64 @@ void Sondage_page1::on_pushButton_2_clicked()
 
 void Sondage_page1::on_plus_clicked()
 {
-    qDebug()<<"Autres";
-//  QHBoxLayout* layout=new QHBoxLayout();
-//  QLineEdit* autre=new QLineEdit();
-//  QPushButton* del=new QPushButton("X");
-//  ui->layout_autres->addLayout(layout);
-//  layout->addWidget(autre);
-//  layout->addWidget(del);
-    QLineEdit* autre_mq = new QLineEdit();
-    QLineEdit* autre_nom = new QLineEdit();
-    QLineEdit* autre_type = new QLineEdit();
-    QLineEdit* autre_gout = new QLineEdit();
-    QPushButton* del = new QPushButton("X");
-    ui->gridLayout->addWidget(autre_mq,row,1,Qt::AlignHCenter);
-    ui->gridLayout->addWidget(autre_nom,row,2,Qt::AlignHCenter);
-    ui->gridLayout->addWidget(autre_type,row,3,Qt::AlignHCenter);
-    ui->gridLayout->addWidget(autre_gout,row,4,Qt::AlignHCenter);
-    ui->gridLayout->addWidget(del,row,5,Qt::AlignHCenter);
-    row++;
+    if(row==1)
+    {
+        ui->Marque->show();
+        ui->autre_mq->show();
+        ui->Nom->show();
+        ui->autre_nm->show();
+        ui->Type->show();
+        ui->autre_type->show();
+        ui->Gout->show();
+        ui->autre_gout->show();
+        row++;
+    }
+    else
+    {
+        if(row>2)
+        {
+            ui->gridLayout->itemAt(ui->gridLayout->count()-1)->widget()->setVisible(false);
+            ui->gridLayout->removeItem(ui->gridLayout->itemAt(ui->gridLayout->count()-1));
+        }
+        QLineEdit* autre_mq = new QLineEdit();
+        QLineEdit* autre_nom = new QLineEdit();
+        QLineEdit* autre_type = new QLineEdit();
+        QLineEdit* autre_gout = new QLineEdit();
+        QPushButton* del = new QPushButton("X");
+        ui->gridLayout->addWidget(autre_mq,row,1,Qt::AlignHCenter);
+        ui->gridLayout->addWidget(autre_nom,row,2,Qt::AlignHCenter);
+        ui->gridLayout->addWidget(autre_type,row,3,Qt::AlignHCenter);
+        ui->gridLayout->addWidget(autre_gout,row,4,Qt::AlignHCenter);
+        ui->gridLayout->addWidget(del,row,5,Qt::AlignHCenter);
+        row++;
+
+        vector<QObject*> temp;
+        temp.push_back(autre_mq);
+        temp.push_back(autre_nom);
+        temp.push_back(autre_type);
+        temp.push_back(autre_gout);
+        temp.push_back(del);
+        objets.push_back(temp);
+
+        QObject::connect(del,SIGNAL(clicked()),this,SLOT(del_clicked()));
+    }
+}
+
+void Sondage_page1::del_clicked()
+{
+    delete objets.back().at(0);
+    delete objets.back().at(1);
+    delete objets.back().at(2);
+    delete objets.back().at(3);
+    delete objets.back().at(4);
+    objets.pop_back();
+    row--;
+
+    if(row>2)
+    {
+        QPushButton* del = new QPushButton("X");
+        objets.back().at(4)=del;
+        ui->gridLayout->addWidget(del,row-1,5,Qt::AlignHCenter);
+        QObject::connect(del,SIGNAL(clicked()),this,SLOT(del_clicked()));
+    }
 }

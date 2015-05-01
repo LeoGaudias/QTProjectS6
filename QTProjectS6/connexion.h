@@ -24,6 +24,10 @@ private slots:
 
     void on_Result_clicked();
 
+    void on_inscrire_clicked();
+
+    void on_connecter_clicked();
+
 private:
     Ui::Connexion *ui;
     MainWindow* p;

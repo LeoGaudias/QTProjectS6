@@ -154,7 +154,7 @@ void AjoutPersonne::on_buttonBox_rejected()
     p->setCentralWidget(co);
 
     int x = co->width();
-    int y = co->height();
+    int y = co->height()+50;
 
     p->resize(x,y);
 }
@@ -165,7 +165,7 @@ void AjoutPersonne::connection_ok()
     p->setCentralWidget(sond_1);
 
     int x = sond_1->width();
-    int y = sond_1->height();
+    int y = sond_1->height()+50;
 
     p->resize(x,y);
     p->setWindowTitle(p->windowTitle()+" id: "+QString::number(p->last_id));
