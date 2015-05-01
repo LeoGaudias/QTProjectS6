@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>760</width>
-    <height>346</height>
+    <height>349</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,7 +30,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>40</y>
+     <y>30</y>
      <width>711</width>
      <height>261</height>
     </rect>
@@ -57,23 +57,26 @@
        </font>
       </property>
       <property name="text">
-       <string>Parmi ces marques, lesquelles avez-vous achetés au cours des 6 derniers mois ?</string>
+       <string>Parmi ces marques, lesquelles avez-vous achetés au cours des 6 derniers mois et à quelle fréquence ?</string>
       </property>
      </widget>
+    </item>
+    <item>
+     <layout class="QGridLayout" name="gridLayout"/>
     </item>
    </layout>
   </widget>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>490</x>
-     <y>310</y>
-     <width>231</width>
+     <x>350</x>
+     <y>300</y>
+     <width>371</width>
      <height>31</height>
     </rect>
    </property>
    <property name="standardButtons">
-    <set>QDialogButtonBox::Abort|QDialogButtonBox::Ok</set>
+    <set>QDialogButtonBox::Abort|QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
    </property>
   </widget>
  </widget>

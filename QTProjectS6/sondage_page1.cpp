@@ -47,7 +47,7 @@ Sondage_page1::Sondage_page1(QWidget *parent) :
 
                     if(query.value("Type").toString()!=NULL)
                     {
-                        check=new QCheckBox(query.value("Marque").toString()+" "+query.value("Nom").toString()+" "+query.value("Type").toString()+", au goût"+query.value("Gout").toString());
+                        check=new QCheckBox(query.value("Marque").toString()+" "+query.value("Nom").toString()+" "+query.value("Type").toString()+", au goût "+query.value("Gout").toString());
 
                     }
                     else
@@ -169,6 +169,67 @@ void Sondage_page1::on_buttonBox_accepted()
                 exit(0);
             }
         }
+
+        if(!ui->autre_mq->text().isEmpty() && !ui->autre_nm->text().isEmpty() && !ui->autre_gout->text().isEmpty())
+        {
+            if(!ui->autre_type->text().isEmpty())
+            {
+                query.prepare("INSERT INTO Yaourt VALUES (NULL, :mq, :nom, :type, :gout)");
+                query.bindValue(":type",ui->autre_type->text());
+            }
+            else
+            {
+                query.prepare("INSERT INTO Yaourt VALUES (NULL, :mq, :nom, NULL, :gout)");
+            }
+
+            query.bindValue(":mq",ui->autre_mq->text());
+            query.bindValue(":nom",ui->autre_nm->text());
+            query.bindValue(":gout",ui->autre_gout->text());
+
+            if(query.exec())
+            {
+                qDebug() << "Insert yaourt autres ok";
+            }
+            else
+            {
+                qDebug() << "Something goes wrong with the insert autres query" << p->db.lastError().text();
+                p->db.close();
+                exit(0);
+            }
+        }
+
+        vector<vector<QObject*> >::iterator it_autres;
+        for(it_autres=objets.begin();it_autres!=objets.end();it_autres++)
+        {
+           if(!((QLineEdit*)((*it_autres).at(0)))->text().isEmpty() && !((QLineEdit*)((*it_autres).at(1)))->text().isEmpty() && !((QLineEdit*)((*it_autres).at(3)))->text().isEmpty())
+           {
+               if(!((QLineEdit*)((*it_autres).at(2)))->text().isEmpty())
+               {
+                   query.prepare("INSERT INTO Yaourt VALUES (NULL, :mq, :nom, :type, :gout)");
+                   query.bindValue(":type",((QLineEdit*)((*it_autres).at(2)))->text());
+               }
+               else
+               {
+                   query.prepare("INSERT INTO Yaourt VALUES (NULL, :mq, :nom, NULL, :gout)");
+               }
+
+               query.bindValue(":mq",((QLineEdit*)((*it_autres).at(0)))->text());
+               query.bindValue(":nom",((QLineEdit*)((*it_autres).at(1)))->text());
+               query.bindValue(":gout",((QLineEdit*)((*it_autres).at(3)))->text());
+
+               if(query.exec())
+               {
+                   qDebug() << "Insert yaourt for autres ok";
+               }
+               else
+               {
+                   qDebug() << "Something goes wrong with the insert for autres query" << p->db.lastError().text();
+                   p->db.close();
+                   exit(0);
+               }
+           }
+        }
+
 
         if(select==false)
         {
