@@ -4,6 +4,8 @@
 #include <QWidget>
 #include "mainwindow.h"
 #include <vector>
+#include <QCheckBox>
+#include <QLineEdit>
 
 using std::vector;
 
@@ -20,6 +22,7 @@ public:
     ~sondage_page2();
     vector<vector<QObject*> > objets;
     vector<int> checks_id;
+    QMap<QCheckBox*,QLineEdit*> map;
 
 private slots:
     void on_buttonBox_rejected();

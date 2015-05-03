@@ -26,8 +26,11 @@ Connexion::Connexion(QWidget *parent) :
     p = (MainWindow*) parent;
     ui->setupUi(this);
 
+    p->myfile.close();
+    p->myfile.open("../last");
     string line;
-    getline(p->myfile,line);;
+    getline(p->myfile,line);
+    qDebug()<< QString(line.c_str());
     ui->spinBox->setValue(atoi(line.c_str()));
 }
 

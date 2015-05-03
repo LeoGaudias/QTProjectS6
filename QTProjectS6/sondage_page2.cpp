@@ -4,7 +4,6 @@
 #include "QDebug"
 #include <QPushButton>
 #include <QSqlQuery>
-#include <QLineEdit>
 #include "sondage_merci.h"
 #include <QtSql>
 
@@ -46,6 +45,7 @@ sondage_page2::sondage_page2(QWidget *parent) :
                         check->setChecked(true);
                     }
                     ui->gridLayout->addWidget(check,row,0,Qt::AlignHCenter);
+                    map[check]=NULL;
 
                     checks_id.push_back(query.value("IdY").toLongLong());
                     QObject::connect(check,SIGNAL(stateChanged(int)),this,SLOT(checked(int)));
@@ -71,18 +71,38 @@ sondage_page2::sondage_page2(QWidget *parent) :
 
 void sondage_page2::checked(int state)
 {
-    // très broken
-    if(state==2) // checked
+    QCheckBox *check = qobject_cast<QCheckBox *>(sender());
+    if(check)
     {
-        QLineEdit* edit=new QLineEdit();
-        objets.at(objets.size()-1).push_back(edit);
-        ui->gridLayout->addWidget(edit,row-1,1,Qt::AlignHCenter);
+        if(state==2) // checked
+        {
+            QLineEdit* edit=new QLineEdit();
+
+            objets.at(objets.size()-1).push_back(edit);
+            map[check]=edit;
+
+            vector<vector<QObject*> >::iterator it;
+            for(it=objets.begin();it!=objets.end();it++)
+            {
+                if((*it).at(0)==check)
+                {
+                    ui->gridLayout->addWidget(edit,it-objets.begin(),1,Qt::AlignHCenter);
+                }
+            }
+        }
+        else
+        {
+            QLineEdit* edit=map[check];
+            edit->deleteLater();
+            //delete objets.at(row-1).at(1);
+            objets.at(row-1).pop_back();
+        }
     }
     else
     {
-        delete objets.at(row-1).at(1);
-        objets.at(row-1).pop_back();
+        qDebug()<<"Erreur";
     }
+
 }
 
 sondage_page2::~sondage_page2()
