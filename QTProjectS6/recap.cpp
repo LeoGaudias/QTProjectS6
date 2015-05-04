@@ -9,6 +9,7 @@
 #include <QSqlDatabase>
 #include <QDebug>
 #include <QMessageBox>
+#include <QLabel>
 
 
 Recap::Recap(QWidget *parent) :
@@ -17,6 +18,63 @@ Recap::Recap(QWidget *parent) :
 {
     p = (MainWindow *) parent;
     ui->setupUi(this);
+
+    QSqlQuery query;
+
+    if(p->db.open())
+    {
+        query.prepare("SELECT * FROM Sondage s, Yaourt y WHERE s.IdY = y.IdY AND s.Id = :id");
+        query.bindValue(":id",p->last_id);
+        if(query.exec())
+        {
+            if(query.size() > 0)
+            {
+                qDebug() << "get data ok";
+                QLabel *yaourt,*achete,*frequence;
+                int row = 1;
+                while(query.next())
+                {
+                    yaourt = new QLabel(query.value("Marque").toString()+" "+query.value("Nom").toString()+", au goût "+query.value("Gout").toString());
+                    if(query.value("Est_achete").toString() == "NULL")
+                    {
+                        achete = new QLabel("");
+                    }
+                    else if(query.value("Est_achete").toBool())
+                    {
+                        achete = new QLabel("Oui");
+                    }
+                    else
+                    {
+                        achete = new QLabel("Non");
+                    }
+                    frequence = new QLabel(query.value("frequence").toString() + "/mois");
+                    ui->gridLayout->addWidget(yaourt,row,1,Qt::AlignHCenter);
+                    ui->gridLayout->addWidget(achete,row,2,Qt::AlignHCenter);
+                    ui->gridLayout->addWidget(frequence,row,3,Qt::AlignHCenter);
+
+                    row++;
+                }
+            }
+            else
+            {
+                qDebug() << "no data";
+            }
+
+        }
+        else
+        {
+            qDebug() << "Something goes wrong with the query" << p->db.lastError().text();
+            p->db.close();
+            exit(0);
+        }
+    }
+    else
+    {
+        qDebug() << "Something goes wrong";
+        p->db.close();
+        exit(0);
+    }
+
     ui->buttonBox->button(QDialogButtonBox::Close)->setText("Se déconnecter");
     ui->buttonBox->button(QDialogButtonBox::Cancel)->setText("Continuer");
     ui->buttonBox->button(QDialogButtonBox::Reset)->setText("Reset les données");
@@ -67,14 +125,14 @@ void Recap::on_buttonBox_clicked(QAbstractButton *button)
             {
                 qDebug() << "Something goes wrong";
                 p->db.close();
-                close();
+                exit(0);
             }
         }
         else
         {
             qDebug() << "Something goes wrong";
             p->db.close();
-            close();
+            exit(0);
         }
 
     }
