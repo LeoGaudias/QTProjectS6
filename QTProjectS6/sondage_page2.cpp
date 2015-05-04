@@ -1,10 +1,12 @@
 #include "sondage_page2.h"
 #include "ui_sondage_page2.h"
 #include "sondage_page1.h"
+#include "recap.h"
+#include "sondage_merci.h"
+
 #include "QDebug"
 #include <QPushButton>
 #include <QSqlQuery>
-#include "sondage_merci.h"
 #include <QtSql>
 
 sondage_page2::sondage_page2(QWidget *parent) :
@@ -112,7 +114,13 @@ sondage_page2::~sondage_page2()
 
 void sondage_page2::on_buttonBox_rejected()
 {
+    Recap *re = new Recap(p);
+    p->setCentralWidget(re);
 
+    int x = re->width();
+    int y = re->height()+50;
+
+    p->resize(x,y);
 }
 
 void sondage_page2::on_buttonBox_accepted()

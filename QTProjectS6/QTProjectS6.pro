@@ -22,7 +22,8 @@ SOURCES += main.cpp\
     resultats.cpp \
     qcustomplot/qcustomplot.cpp \
     sondage_page2.cpp \
-    sondage_merci.cpp
+    sondage_merci.cpp \
+    recap.cpp
 
 HEADERS  += mainwindow.h \
     ajoutpersonne.h \
@@ -31,7 +32,8 @@ HEADERS  += mainwindow.h \
     resultats.h \
     qcustomplot/qcustomplot.h \
     sondage_page2.h \
-    sondage_merci.h
+    sondage_merci.h \
+    recap.h
 
 FORMS    += mainwindow.ui \
     sondage_page1.ui \
@@ -39,4 +41,5 @@ FORMS    += mainwindow.ui \
     connexion.ui \
     resultats.ui \
     sondage_page2.ui \
-    sondage_merci.ui
+    sondage_merci.ui \
+    recap.ui

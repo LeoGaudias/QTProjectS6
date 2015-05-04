@@ -1,10 +1,12 @@
 #include "sondage_page1.h"
 #include "ui_sondage_page1.h"
+#include "sondage_page2.h"
+#include "recap.h"
+
 #include <QAbstractButton>
 #include <QDebug>
 #include <QSqlQuery>
 #include <QLineEdit>
-#include "sondage_page2.h"
 #include <QtSql>
 
 Sondage_page1::Sondage_page1(QWidget *parent) :
@@ -95,12 +97,20 @@ void Sondage_page1::on_buttonBox_clicked(QAbstractButton *button)
 
 void Sondage_page1::on_buttonBox_rejected()
 {
-    qDebug()<<"rejected";
+    //qDebug()<<"rejected";
+    Recap *re = new Recap(p);
+    p->setCentralWidget(re);
+
+    int x = re->width();
+    int y = re->height()+50;
+
+    p->resize(x,y);
 }
 
 void Sondage_page1::on_buttonBox_accepted()
 {
     QSqlQuery query;
+    int dernier_id_yaourt = 0;
     // gérer les exceptions
     if(p->db.open())
     {
@@ -188,7 +198,38 @@ void Sondage_page1::on_buttonBox_accepted()
 
             if(query.exec())
             {
-                qDebug() << "Insert yaourt autres ok";
+                qDebug() << "Insert yaourt for autres ok";
+
+                query.prepare("SELECT LAST_INSERT_ID()");
+
+                if(query.exec())
+                {
+                    qDebug() << "It worked";
+
+                    query.next();
+                    dernier_id_yaourt = query.value(0).toLongLong();
+
+                    query.prepare("INSERT INTO Sondage VALUES (NULL, 0, :id, :idY)");
+                    query.bindValue(":id",p->last_id);
+                    query.bindValue(":idY",dernier_id_yaourt);
+
+                    if(query.exec())
+                    {
+                        qDebug() << "It worked";
+                    }
+                    else
+                    {
+                        qDebug() << "Something goes wrong with the query" << p->db.lastError().text();
+                        p->db.close();
+                        exit(0);
+                    }
+                }
+                else
+                {
+                    qDebug() << "Something goes wrong with the query" << p->db.lastError().text();
+                    p->db.close();
+                    exit(0);
+                }
             }
             else
             {
@@ -220,6 +261,37 @@ void Sondage_page1::on_buttonBox_accepted()
                if(query.exec())
                {
                    qDebug() << "Insert yaourt for autres ok";
+
+                   query.prepare("SELECT LAST_INSERT_ID()");
+
+                   if(query.exec())
+                   {
+                       qDebug() << "It worked";
+
+                       query.next();
+                       dernier_id_yaourt = query.value(0).toLongLong();
+
+                       query.prepare("INSERT INTO Sondage VALUES (NULL, 0, :id, :idY)");
+                       query.bindValue(":id",p->last_id);
+                       query.bindValue(":idY",dernier_id_yaourt);
+
+                       if(query.exec())
+                       {
+                           qDebug() << "It worked";
+                       }
+                       else
+                       {
+                           qDebug() << "Something goes wrong with the query" << p->db.lastError().text();
+                           p->db.close();
+                           exit(0);
+                       }
+                   }
+                   else
+                   {
+                       qDebug() << "Something goes wrong with the query" << p->db.lastError().text();
+                       p->db.close();
+                       exit(0);
+                   }
                }
                else
                {
