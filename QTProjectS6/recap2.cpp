@@ -1,33 +1,20 @@
-#include "recap.h"
-#include "ui_recap.h"
+#include "recap2.h"
+#include "ui_recap2.h"
+#include "sondage_page1.h"
 
-#include "connexion.h"
-#include "ui_mainwindow.h"
-#include <QPushButton>
+
 #include <QtSql>
 #include <QSqlDatabase>
 #include <QDebug>
-#include <QMessageBox>
-#include <QLabel>
+#include <QPushButton>
 
-Recap::Recap(QWidget *parent,QWidget* act) :
+Recap2::Recap2(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::Recap)
+    ui(new Ui::Recap2)
 {
-    p = (MainWindow *) parent;       
-
+    p = (MainWindow*) parent;
+    row = 1;
     ui->setupUi(this);
-
-    if(dynamic_cast<Sondage_page1*>(act))
-    {
-        precedent1=dynamic_cast<Sondage_page1*>(act);
-        precedent2=NULL;
-    }
-    else
-    {
-        precedent1=NULL;
-        precedent2=dynamic_cast<sondage_page2*>(act);
-    }
 
     QSqlQuery query;
 
@@ -41,7 +28,6 @@ Recap::Recap(QWidget *parent,QWidget* act) :
             {
                 qDebug() << "get data ok";
                 QLabel *yaourt,*achete,*frequence,*conso;
-                int row = 1;
                 while(query.next())
                 {
                     yaourt = new QLabel(query.value("Marque").toString()+" "+query.value("Nom").toString()+", au goût "+query.value("Gout").toString());
@@ -113,57 +99,35 @@ Recap::Recap(QWidget *parent,QWidget* act) :
         exit(0);
     }
 
-    ui->buttonBox->button(QDialogButtonBox::Close)->setText("Se déconnecter");
-    ui->buttonBox->button(QDialogButtonBox::Cancel)->setText("Continuer");
-    ui->buttonBox->button(QDialogButtonBox::Reset)->setText("Reset les données");
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setText("Quitter");
+    ui->buttonBox->button(QDialogButtonBox::Retry)->setText("Recommencer");
+
 }
 
-Recap::~Recap()
+Recap2::~Recap2()
 {
     delete ui;
 }
 
-void Recap::on_buttonBox_clicked(QAbstractButton *button)
+void Recap2::on_buttonBox_accepted()
 {
-    if(button == ui->buttonBox->button(QDialogButtonBox::Close)) // se déconnecte
+
+}
+
+void Recap2::on_buttonBox_rejected()
+{
+
+}
+
+void Recap2::on_buttonBox_clicked(QAbstractButton *button)
+{
+    if(button == ui->buttonBox->button(QDialogButtonBox::Ok))
     {
-        p->ui->actionConnextion->setText("S'inscrire");
-        p->connected = false;
-        Connexion* co = new Connexion(p);
-        p->setCentralWidget(co);
-
-        int x = co->width();
-        int y = co->height()+50;
-
-        p->resize(x,y);
+        p->myfile.close();
+        p->db.close();
+        exit(0);
     }
-    else if(button == ui->buttonBox->button(QDialogButtonBox::Cancel)) //retourne au sondage
-    {
-        if(precedent2==NULL)
-        {
-            qDebug()<<"page1";
-            Sondage_page1* sond_1 = new Sondage_page1(p);
-            p->setCentralWidget(sond_1);
-
-            int x = sond_1->width();
-            int y = sond_1->height()+50;
-
-            p->resize(x,y);
-        }
-        else
-        {
-            qDebug()<<"page2";
-            sondage_page2* sond_2 = new sondage_page2(p);
-            p->setCentralWidget(sond_2);
-
-            int x = sond_2->width();
-            int y = sond_2->height()+50;
-
-            p->resize(x,y);
-        }
-
-    }
-    else // wipe tte les données
+    else
     {
         QSqlQuery query;
         if(p->db.open())
@@ -180,7 +144,13 @@ void Recap::on_buttonBox_clicked(QAbstractButton *button)
                     delete (*it);
                 }
 
-                QMessageBox::about(p,"Réinitialisation","Vos données ont bien été réinitialisées");
+                Sondage_page1* sond_1 = new Sondage_page1(p);
+                p->setCentralWidget(sond_1);
+
+                int x = sond_1->width();
+                int y = sond_1->height() + 50;
+
+                p->resize(x,y);
             }
             else
             {
@@ -195,16 +165,5 @@ void Recap::on_buttonBox_clicked(QAbstractButton *button)
             p->db.close();
             exit(0);
         }
-
     }
-}
-
-void Recap::on_buttonBox_accepted()
-{
-
-}
-
-void Recap::on_buttonBox_rejected()
-{
-
 }

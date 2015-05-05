@@ -21,6 +21,10 @@ private slots:
 
     void on_buttonBox_rejected();
 
+    void on_label_2_linkActivated(const QString &link);
+
+    void on_pushButton_clicked();
+
 private:
     Ui::Sondage_merci *ui;
     MainWindow* p;
