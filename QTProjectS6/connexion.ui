@@ -149,7 +149,14 @@
       <item>
        <widget class="QPushButton" name="Result">
         <property name="text">
-         <string>Résultats</string>
+         <string>Graphs</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="stat">
+        <property name="text">
+         <string>Statistiques</string>
         </property>
        </widget>
       </item>

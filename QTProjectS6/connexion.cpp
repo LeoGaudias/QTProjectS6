@@ -8,6 +8,7 @@
 #include "ui_sondage_page1.h"
 
 #include "resultats.h"
+#include "statistique.h"
 
 #include "iostream"
 #include <fstream>
@@ -126,7 +127,18 @@ void Connexion::on_Result_clicked()
     p->setCentralWidget(result);
 
     int x = result->width();
-    int y = result->height();
+    int y = result->height()+50;
+
+    p->resize(x,y);
+}
+
+void Connexion::on_stat_clicked()
+{
+    Statistique* stat = new Statistique(p);
+    p->setCentralWidget(stat);
+
+    int x = stat->width();
+    int y = stat->height()+50;
 
     p->resize(x,y);
 }

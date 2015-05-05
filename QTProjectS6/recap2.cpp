@@ -30,8 +30,16 @@ Recap2::Recap2(QWidget *parent) :
                 QLabel *yaourt,*achete,*frequence,*conso;
                 while(query.next())
                 {
-                    yaourt = new QLabel(query.value("Marque").toString()+" "+query.value("Nom").toString()+", au goût "+query.value("Gout").toString());
-                    if(query.value("Est_achete").toString() == "NULL")
+                    if(query.value("Type").isNull())
+                    {
+                        yaourt = new QLabel(query.value("Marque").toString()+" "+query.value("Nom").toString()+", au goût "+query.value("Gout").toString());
+                    }
+                    else
+                    {
+                        yaourt = new QLabel(query.value("Marque").toString()+" "+query.value("Nom").toString()+" de type "+query.value("Type").toString()+", au goût "+query.value("Gout").toString());
+                    }
+
+                    if(query.value("Est_achete").isNull())
                     {
                         achete = new QLabel("");
                     }

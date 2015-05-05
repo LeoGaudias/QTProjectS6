@@ -24,7 +24,8 @@ SOURCES += main.cpp\
     sondage_page2.cpp \
     sondage_merci.cpp \
     recap.cpp \
-    recap2.cpp
+    recap2.cpp \
+    statistique.cpp
 
 HEADERS  += mainwindow.h \
     ajoutpersonne.h \
@@ -35,7 +36,8 @@ HEADERS  += mainwindow.h \
     sondage_page2.h \
     sondage_merci.h \
     recap.h \
-    recap2.h
+    recap2.h \
+    statistique.h
 
 FORMS    += mainwindow.ui \
     sondage_page1.ui \
@@ -45,4 +47,5 @@ FORMS    += mainwindow.ui \
     sondage_page2.ui \
     sondage_merci.ui \
     recap.ui \
-    recap2.ui
+    recap2.ui \
+    statistique.ui

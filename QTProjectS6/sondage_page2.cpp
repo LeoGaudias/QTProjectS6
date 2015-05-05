@@ -24,7 +24,8 @@ sondage_page2::sondage_page2(QWidget *parent) :
     // gérer les exceptions
     if(p->db.open())
     {
-        query.prepare("SELECT * FROM Yaourt y,Sondage s WHERE y.idY=s.IdY");
+        query.prepare("SELECT * FROM Yaourt y,Sondage s WHERE y.idY=s.IdY AND s.Id= :id");
+        query.bindValue(":id",p->last_id);
         if(query.exec())
         {
             if(query.size()>0)

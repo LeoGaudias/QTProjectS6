@@ -35,10 +35,10 @@ AjoutPersonne::AjoutPersonne(QWidget *parent) :
     ui->etat_civ->addItem("Divorcé");
     ui->etat_civ->addItem("Veuf");
 
-    ui->revenu->addItem("0 à 10000€");
-    ui->revenu->addItem("10000 à 20000€");
-    ui->revenu->addItem("20000 à 30000€");
-    ui->revenu->addItem("30000 à 40000€");
+    ui->revenu->addItem("< 10000€");
+    ui->revenu->addItem("1000 à 20000€");
+    ui->revenu->addItem("20001 à 30000€");
+    ui->revenu->addItem("30001 à 40000€");
     ui->revenu->addItem("40001€ et plus");
     ui->buttonBox->button(QDialogButtonBox::Cancel)->setText("Annuler");
 

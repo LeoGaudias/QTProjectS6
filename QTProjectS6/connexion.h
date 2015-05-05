@@ -28,6 +28,8 @@ private slots:
 
     void on_connecter_clicked();
 
+    void on_stat_clicked();
+
 private:
     Ui::Connexion *ui;
     MainWindow* p;

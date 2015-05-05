@@ -405,7 +405,7 @@ void Sondage_page1::on_plus_clicked()
         QSqlQuery query;
         if(p->db.open())
         {
-            query.prepare("SELECT * FROM Type)");
+            query.prepare("SELECT * FROM Type");
             if(query.exec())
             {
                 while(query.next())
