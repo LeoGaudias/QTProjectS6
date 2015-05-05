@@ -25,7 +25,8 @@ SOURCES += main.cpp\
     sondage_merci.cpp \
     recap.cpp \
     piechartwidget.cpp \
-    recap2.cpp
+    recap2.cpp \
+    nightcharts.cpp
 
 HEADERS  += mainwindow.h \
     ajoutpersonne.h \
@@ -37,7 +38,8 @@ HEADERS  += mainwindow.h \
     sondage_merci.h \
     recap.h \
     piechartwidget.h \
-    recap2.h
+    recap2.h \
+    nightcharts.h
 
 FORMS    += mainwindow.ui \
     sondage_page1.ui \
