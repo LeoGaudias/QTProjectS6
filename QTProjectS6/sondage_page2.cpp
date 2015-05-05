@@ -109,13 +109,7 @@ sondage_page2::~sondage_page2()
 
 void sondage_page2::on_buttonBox_rejected()
 {
-    Recap *re = new Recap(p);
-    p->setCentralWidget(re);
 
-    int x = re->width();
-    int y = re->height()+50;
-
-    p->resize(x,y);
 }
 
 void sondage_page2::on_buttonBox_accepted()
@@ -192,6 +186,12 @@ void sondage_page2::on_buttonBox_clicked(QAbstractButton *button)
     }
     else // annuler
     {
-        qDebug()<<"annuler";
+        Recap *re = new Recap(p,this);
+        p->setCentralWidget(re);
+
+        int x = re->width();
+        int y = re->height()+50;
+
+        p->resize(x,y);
     }
 }

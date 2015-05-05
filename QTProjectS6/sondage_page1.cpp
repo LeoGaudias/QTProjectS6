@@ -98,7 +98,7 @@ void Sondage_page1::on_buttonBox_clicked(QAbstractButton *button)
 void Sondage_page1::on_buttonBox_rejected()
 {
     //qDebug()<<"rejected";
-    Recap *re = new Recap(p);
+    Recap *re = new Recap(p,this);
     p->setCentralWidget(re);
 
     int x = re->width();
