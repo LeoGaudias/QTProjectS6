@@ -20,7 +20,7 @@ SOURCES += main.cpp\
     sondage_page1.cpp \
     connexion.cpp \
     resultats.cpp \
-    qcustomplot/qcustomplot.cpp \
+    qcustomplot.cpp \
     sondage_page2.cpp \
     sondage_merci.cpp \
     recap.cpp \
@@ -32,7 +32,7 @@ HEADERS  += mainwindow.h \
     sondage_page1.h \
     connexion.h \
     resultats.h \
-    qcustomplot/qcustomplot.h \
+    qcustomplot.h \
     sondage_page2.h \
     sondage_merci.h \
     recap.h \

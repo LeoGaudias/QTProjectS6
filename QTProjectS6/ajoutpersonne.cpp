@@ -122,6 +122,7 @@ void AjoutPersonne::on_buttonBox_accepted()
                 query.next();
                 p->ui->actionConnextion->setText("Se déconnecter");
                 p->last_id=query.value(0).toLongLong();
+
                 if(ui->radio_homme->isChecked())
                 {
                     p->sexe=0;

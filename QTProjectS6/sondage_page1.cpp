@@ -8,6 +8,9 @@
 #include <QSqlQuery>
 #include <QLineEdit>
 #include <QtSql>
+#include <string>
+
+using namespace std;
 
 Sondage_page1::Sondage_page1(QWidget *parent) :
     QWidget(parent),
@@ -38,7 +41,8 @@ Sondage_page1::Sondage_page1(QWidget *parent) :
     // gérer les exceptions
     if(p->db.open())
     {
-        query.prepare("SELECT *, CASE WHEN EXISTS (SELECT * FROM Sondage s WHERE y.IdY=s.IdY) THEN 1 ELSE 0 END AS 'Present' FROM Yaourt y");
+        query.prepare("SELECT *, CASE WHEN EXISTS (SELECT * FROM Sondage s WHERE y.IdY=s.IdY AND s.Id=:id) THEN 1 ELSE 0 END AS 'Present' FROM Yaourt y");
+        query.bindValue(":id",p->last_id);
         if(query.exec())
         {
             if(query.size()>0)
