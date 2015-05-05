@@ -118,17 +118,12 @@ void Resultats::on_pushButton_clicked()
     if(p->db.open())
     {
         QSqlQuery query;
-//        QString freq = "Fréquence d'achat";
-
-//        QString repartition = "Répartition dans le foyer";
-
-//        if(ui->cmb_graph->currentText().compare(freq))
-//        {
-//            query.prepare();
-//            query.bindValue();
-//        }
-        qDebug() << ui->cmb_graph->currentIndex();
-        if(ui->cmb_graph->currentIndex() == 1)
+        if(ui->cmb_graph->currentIndex() == 0)
+        {
+            //query.prepare();
+            //query.bindValue();
+        }
+        else if(ui->cmb_graph->currentIndex() == 1)
         {
             ui->Titre_Graph->setText("Moyenne d'age consommant des yaourt :" + ui->cmb_Marque->currentText() + " " +
                                      ui->cmb_Nom->currentText() + " " + ui->cmb_Type->currentText() + " " + ui->cmb_Gout->currentText() );
@@ -165,7 +160,7 @@ void Resultats::on_pushButton_clicked()
                            }
                            else if(age < 19)
                            {
-                               array[1];
+                               array[1]++;
                            }
                            else if(age < 29)
                            {
@@ -284,11 +279,140 @@ void Resultats::on_pushButton_clicked()
 
             ui->verticalLayout->addWidget(customPlot);
         }
-//        else if(ui->cmb_graph->currentText().compare(repartition))
-//        {
-//            query.prepare();
-//            query.bindValue();
-//        }
+        else if(ui->cmb_graph->currentIndex() == 2)
+        {
+            ui->Titre_Graph->setText("Répartition de la consommation pour le yaourt :" + ui->cmb_Marque->currentText() + " " +
+                                     ui->cmb_Nom->currentText() + " " + ui->cmb_Type->currentText() + " " + ui->cmb_Gout->currentText() );
+            //qDebug() << "hello";
+            QCustomPlot * customPlot = new QCustomPlot(this);
+            QVector<double> ticks;
+            ticks << 1 << 2 << 3 << 4 << 5 << 6;
+            QVector<QString> labels;
+            labels << "Homme" << "Femme" << "Enfant" << "Homme & Enfant" << "Femme & Enfant" << "Tous";
+            int array[] = { 0 , 0 , 0 , 0 , 0 , 0 };
+            QVector<double> data;
+
+            int type = 0, max = 0;
+            if(p->db.open())
+            {
+                query.prepare("select Type_Pers from Sondage where IdY = (select IdY from Yaourt where Marque = :str1 and Nom = :str2 and Type = :str3 and Gout = :str4) order by Type_Pers");
+                query.bindValue(":str1",ui->cmb_Marque->currentText());
+                query.bindValue(":str2",ui->cmb_Nom->currentText());
+                query.bindValue(":str3",ui->cmb_Type->currentText());
+                query.bindValue(":str4",ui->cmb_Gout->currentText());
+
+                if(query.exec())
+                {
+                    if(query.size() > 0)
+                    {
+                        while(query.next())
+                        {
+                           type = query.value("Type_Pers").toInt();
+                           switch (type) {
+                           case 0:
+                               array[0]++;
+                               break;
+                           case 1:
+                               array[1]++;
+                               break;
+                           case 2:
+                               array[2]++;
+                               break;
+                           case 3:
+                               array[3]++;
+                               break;
+                           case 4:
+                               array[4]++;
+                               break;
+                           case 5:
+                               array[5]++;
+                               break;
+                           default:
+                               break;
+                           }
+                        }
+                        for (int var = 0; var < 6; ++var)
+                        {
+                            max += array[var];
+
+                        }
+                        data << (double)array[0] << (double)array[1] << (double)array[2] << (double)array[3] << (double)array[4] << (double)array[5];
+                    }
+                    else
+                    {
+                        qDebug() << "no data";
+                    }
+                }
+                else
+                {
+                   qDebug() << "Something goes wrong" << p->db.lastError().text();
+                   p->db.close();
+                   exit(0);
+                }
+            }
+            else
+            {
+                qDebug() << "Something goes wrong";
+                p->db.close();
+                exit(0);
+            }
+            qDebug() << ticks;
+            qDebug() << data;
+            // create empty bar chart objects:
+            QCPBars *trancheAge = new QCPBars(customPlot->xAxis, customPlot->yAxis);
+            customPlot->addPlottable(trancheAge);
+
+            // set names and colors:
+            QPen pen;
+            pen.setWidthF(1.2);
+
+            trancheAge->setName("Tranche d'Age");
+            pen.setColor(QColor(1, 92, 191));
+            trancheAge->setPen(pen);
+            trancheAge->setBrush(QColor(1, 92, 191, 50));
+
+            // prepare x axis with country labels:
+
+            customPlot->xAxis->setAutoTicks(false);
+            customPlot->xAxis->setAutoTickLabels(false);
+            customPlot->xAxis->setTickVector(ticks);
+            customPlot->xAxis->setTickVectorLabels(labels);
+            customPlot->xAxis->setTickLabelRotation(60);
+            customPlot->xAxis->setSubTickCount(0);
+            customPlot->xAxis->setTickLength(0, 4);
+            customPlot->xAxis->grid()->setVisible(true);
+            customPlot->xAxis->setRange(0, 8);
+
+            // prepare y axis:
+            customPlot->yAxis->setRange(0, max);
+            customPlot->yAxis->setPadding(5); // a bit more space to the left border
+            customPlot->yAxis->setLabel("Nombre de Personne");
+            customPlot->yAxis->grid()->setSubGridVisible(true);
+            QPen gridPen;
+            gridPen.setStyle(Qt::SolidLine);
+            gridPen.setColor(QColor(0, 0, 0, 25));
+            customPlot->yAxis->grid()->setPen(gridPen);
+            gridPen.setStyle(Qt::DotLine);
+            customPlot->yAxis->grid()->setSubGridPen(gridPen);
+
+            // Add data:
+
+            trancheAge->setData(ticks, data);
+
+            // setup legend:
+            customPlot->legend->setVisible(true);
+            customPlot->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignTop|Qt::AlignRight);
+            customPlot->legend->setBrush(QColor(255, 255, 255, 200));
+            QPen legendPen;
+            legendPen.setColor(QColor(130, 130, 130, 200));
+            customPlot->legend->setBorderPen(legendPen);
+            QFont legendFont = font();
+            legendFont.setPointSize(10);
+            customPlot->legend->setFont(legendFont);
+            customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
+
+            ui->verticalLayout->addWidget(customPlot);
+        }
 //        else
 //        {
 //            query.prepare();
