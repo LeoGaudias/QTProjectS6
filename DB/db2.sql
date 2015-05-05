@@ -42,6 +42,7 @@ CREATE TABLE Yaourt(
 CREATE TABLE Sondage(
         Est_achete Bool ,
         frequence  Int DEFAULT 0,
+        Type_Pers  Int NOT NULL ,
         Id         Int NOT NULL ,
         IdY        Int NOT NULL ,
         PRIMARY KEY (Id ,IdY )
