@@ -21,6 +21,46 @@ Sondage_page1::Sondage_page1(QWidget *parent) :
     row = 2;
     ui->setupUi(this);
 
+    QSqlQuery query;
+    if(p->db.open())
+    {
+        query.prepare("SELECT * FROM Type");
+        if(query.exec())
+        {
+            while(query.next())
+            {
+                ui->autre_type->addItem(query.value("NomT").toString());
+            }
+        }
+        else
+        {
+            qDebug() << "Something goes wrong with the query select type" << p->db.lastError().text();
+            p->db.close();
+            exit(0);
+        }
+
+        query.prepare("SELECT * FROM Gout");
+        if(query.exec())
+        {
+            while(query.next())
+            {
+                ui->autre_gout->addItem(query.value("NomG").toString());
+            }
+        }
+        else
+        {
+            qDebug() << "Something goes wrong with the query select type" << p->db.lastError().text();
+            p->db.close();
+            exit(0);
+        }
+    }
+    else
+    {
+        qDebug() << "Something goes wrong with the insert autres query" << p->db.lastError().text();
+        p->db.close();
+        exit(0);
+    }
+
     ui->Marque->hide();
     ui->autre_mq->hide();
     ui->Nom->hide();
@@ -37,7 +77,6 @@ Sondage_page1::Sondage_page1(QWidget *parent) :
     Sondage_page1::rajouter_valeur();
     checks.clear();
 
-    QSqlQuery query;
     // gérer les exceptions
     if(p->db.open())
     {
@@ -186,12 +225,12 @@ void Sondage_page1::on_buttonBox_accepted()
             }
         }
 
-        if(!ui->autre_mq->text().isEmpty() && !ui->autre_nm->text().isEmpty() && !ui->autre_gout->text().isEmpty())
+        if(!ui->autre_mq->text().isEmpty() && !ui->autre_nm->text().isEmpty() && !ui->autre_gout->currentText().isEmpty())
         {
-            if(!ui->autre_type->text().isEmpty())
+            if(!ui->autre_type->currentText().isEmpty())
             {
                 query.prepare("INSERT INTO Yaourt VALUES (NULL, :mq, :nom, :type, :gout)");
-                query.bindValue(":type",ui->autre_type->text());
+                query.bindValue(":type",ui->autre_type->currentText());
             }
             else
             {
@@ -200,7 +239,7 @@ void Sondage_page1::on_buttonBox_accepted()
 
             query.bindValue(":mq",ui->autre_mq->text());
             query.bindValue(":nom",ui->autre_nm->text());
-            query.bindValue(":gout",ui->autre_gout->text());
+            query.bindValue(":gout",ui->autre_gout->currentText());
 
             if(query.exec())
             {
@@ -360,8 +399,49 @@ void Sondage_page1::on_plus_clicked()
         }
         QLineEdit* autre_mq = new QLineEdit();
         QLineEdit* autre_nom = new QLineEdit();
-        QLineEdit* autre_type = new QLineEdit();
-        QLineEdit* autre_gout = new QLineEdit();
+        QComboBox* autre_type = new QComboBox();
+        QComboBox* autre_gout = new QComboBox();
+
+        QSqlQuery query;
+        if(p->db.open())
+        {
+            query.prepare("SELECT * FROM Type)");
+            if(query.exec())
+            {
+                while(query.next())
+                {
+                    autre_type->addItem(query.value("NomT").toString());
+                }
+            }
+            else
+            {
+                qDebug() << "Something goes wrong with the query select type" << p->db.lastError().text();
+                p->db.close();
+                exit(0);
+            }
+
+            query.prepare("SELECT * FROM Gout");
+            if(query.exec())
+            {
+                while(query.next())
+                {
+                    autre_gout->addItem(query.value("NomG").toString());
+                }
+            }
+            else
+            {
+                qDebug() << "Something goes wrong with the query select type" << p->db.lastError().text();
+                p->db.close();
+                exit(0);
+            }
+        }
+        else
+        {
+            qDebug() << "Something goes wrong with the insert autres query" << p->db.lastError().text();
+            p->db.close();
+            exit(0);
+        }
+
         QPushButton* del = new QPushButton("X");
 
         ui->gridLayout->addWidget(autre_mq,row,1,Qt::AlignHCenter);

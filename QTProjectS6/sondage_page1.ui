@@ -147,9 +147,6 @@
       <item row="1" column="2">
        <widget class="QLineEdit" name="autre_nm"/>
       </item>
-      <item row="1" column="3">
-       <widget class="QLineEdit" name="autre_type"/>
-      </item>
       <item row="1" column="1">
        <widget class="QLineEdit" name="autre_mq"/>
       </item>
@@ -179,8 +176,11 @@
         </property>
        </widget>
       </item>
+      <item row="1" column="3">
+       <widget class="QComboBox" name="autre_type"/>
+      </item>
       <item row="1" column="4">
-       <widget class="QLineEdit" name="autre_gout"/>
+       <widget class="QComboBox" name="autre_gout"/>
       </item>
      </layout>
     </item>

@@ -44,8 +44,9 @@ Recap::Recap(QWidget *parent,QWidget* act) :
                 int row = 1;
                 while(query.next())
                 {
+                    //if(query.value("Type").toString())
                     yaourt = new QLabel(query.value("Marque").toString()+" "+query.value("Nom").toString()+", au goût "+query.value("Gout").toString());
-                    if(query.value("Est_achete").toString() == "NULL")
+                    if(query.value("Est_achete").isNull())
                     {
                         achete = new QLabel("");
                     }
@@ -179,6 +180,7 @@ void Recap::on_buttonBox_clicked(QAbstractButton *button)
                 {
                     delete (*it);
                 }
+                objets.erase(objets.begin(),objets.end());
 
                 QMessageBox::about(p,"Réinitialisation","Vos données ont bien été réinitialisées");
             }

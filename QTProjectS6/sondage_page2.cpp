@@ -82,6 +82,12 @@ sondage_page2::sondage_page2(QWidget *parent) :
                 qDebug() << "Rien de selectionné sur la page précédente";
             }
         }
+        else
+        {
+            qDebug() << "Something goes wrong with the query joined" << p->db.lastError().text();
+            p->db.close();
+            exit(0);
+        }
     }
     else
     {
