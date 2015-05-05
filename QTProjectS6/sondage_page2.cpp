@@ -53,9 +53,7 @@ sondage_page2::sondage_page2(QWidget *parent) :
                     QObject::connect(check,SIGNAL(stateChanged(int)),this,SLOT(checked(int)));
                     row++;
 
-                    vector<QObject*> temp;
-                    temp.push_back(check);
-                    objets.push_back(temp);
+                    objets.push_back(check);
                 }
             }
             else
@@ -80,13 +78,12 @@ void sondage_page2::checked(int state)
         {
             QLineEdit* edit=new QLineEdit();
 
-            objets.at(objets.size()-1).push_back(edit);
             map[check]=edit;
 
-            vector<vector<QObject*> >::iterator it;
+            vector<QCheckBox*>::iterator it;
             for(it=objets.begin();it!=objets.end();it++)
             {
-                if((*it).at(0)==check)
+                if((*it)==check)
                 {
                     ui->gridLayout->addWidget(edit,it-objets.begin(),1,Qt::AlignHCenter);
                 }
@@ -96,8 +93,6 @@ void sondage_page2::checked(int state)
         {
             QLineEdit* edit=map[check];
             edit->deleteLater();
-            //delete objets.at(row-1).at(1);
-            objets.at(row-1).pop_back();
         }
     }
     else
@@ -146,24 +141,27 @@ void sondage_page2::on_buttonBox_clicked(QAbstractButton *button)
         // gérer les exceptions
         if(p->db.open())
         {
-            vector<vector<QObject*> >::iterator it;
+            vector<QCheckBox*>::iterator it;
             for(it=objets.begin();it!=objets.end();it++)
             {
-                qDebug() << ((QCheckBox*)(*it).at(0))->text();
+                qDebug() << (*it)->text();
                 query.prepare("UPDATE Sondage SET Est_achete= :achete, frequence= :freq WHERE IdY= :idY");
 
 
-                if(((QCheckBox*)(*it).at(0))->isChecked())
+                if((*it)->isChecked())
                 {
                     qDebug()<< "checked";
                     query.bindValue(":achete",1);
+
+                    int freq=map[(*it)]->text().toInt();
+                    query.bindValue(":freq",freq);
                 }
                 else
                 {
                     query.bindValue(":achete",0);
+                    query.bindValue(":freq",0);
                 }
 
-                query.bindValue(":freq",0); // not working
                 query.bindValue(":idY",checks_id.at(it-objets.begin()));
 
                 if(query.exec())

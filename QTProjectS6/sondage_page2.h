@@ -20,7 +20,7 @@ class sondage_page2 : public QWidget
 public:
     explicit sondage_page2(QWidget *parent = 0);
     ~sondage_page2();
-    vector<vector<QObject*> > objets;
+    vector<QCheckBox*> objets;
     vector<int> checks_id;
     QMap<QCheckBox*,QLineEdit*> map;
 
