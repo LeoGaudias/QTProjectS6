@@ -21,11 +21,14 @@ private slots:
     void marque_clicked(bool toggled);
     void type_clicked(bool toggled);
 
+    void on_buttonBox_accepted();
+
 private:
     Ui::Statistique *ui;
     void type();
     void marque();
     void revenu();
+    void femme();
     MainWindow* p;
     QRadioButton *r;
 

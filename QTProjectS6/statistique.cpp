@@ -3,6 +3,7 @@
 #include <QSqlQuery>
 #include <QDebug>
 #include <QtSql>
+#include "connexion.h"
 
 Statistique::Statistique(QWidget *parent) :
     QWidget(parent),
@@ -17,6 +18,8 @@ Statistique::Statistique(QWidget *parent) :
     marque();
 
     revenu();
+
+    femme();
 }
 
 void Statistique::type()
@@ -149,6 +152,23 @@ void Statistique::revenu()
     }
 }
 
+void Statistique::femme()
+{
+    QSqlQuery query;
+    if(p->db.open())
+    {
+        query.prepare("select SUM(frequence)/(SELECT SUM(frequence) FROM Personne pe, Sondage so, Yaourt ya WHERE ya.IdY=so.IdY AND pe.Id=so.Id) AS 'femme' from Personne p, Sondage s,Yaourt y WHERE s.Id=p.Id AND y.IdY=s.IdY AND sexe=1");
+        if(query.exec())
+        {
+            query.next();
+
+            float value=query.value("femme").toFloat()*100.;
+
+            ui->line_femme->setText(QString::number(value)+" %");
+        }
+    }
+}
+
 void Statistique::type_clicked(bool toggled)
 {
     QRadioButton *radio = qobject_cast<QRadioButton *>(sender());
@@ -217,4 +237,15 @@ void Statistique::marque_clicked(bool toggled)
 Statistique::~Statistique()
 {
     delete ui;
+}
+
+void Statistique::on_buttonBox_accepted()
+{
+    Connexion *co = new Connexion(p);
+    p->setCentralWidget(co);
+
+    int x = co->width();
+    int y = co->height()+50;
+
+    p->resize(x,y);
 }

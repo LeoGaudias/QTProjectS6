@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="standardButtons">
-    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+    <set>QDialogButtonBox::Ok</set>
    </property>
   </widget>
   <widget class="QWidget" name="gridLayoutWidget_2">
@@ -249,18 +249,15 @@
        </font>
       </property>
       <property name="text">
-       <string>Rapport Homme / Femme</string>
+       <string>Pourcentage Femme</string>
       </property>
      </widget>
     </item>
     <item row="16" column="1">
-     <widget class="QLineEdit" name="lineEdit"/>
+     <widget class="QLineEdit" name="line_femme"/>
     </item>
    </layout>
   </widget>
-  <zorder>buttonBox</zorder>
-  <zorder>gridLayoutWidget_2</zorder>
-  <zorder>line_rev2</zorder>
  </widget>
  <resources/>
  <connections/>
