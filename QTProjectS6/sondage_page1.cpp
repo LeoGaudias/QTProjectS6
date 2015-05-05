@@ -363,6 +363,7 @@ void Sondage_page1::on_plus_clicked()
         QLineEdit* autre_type = new QLineEdit();
         QLineEdit* autre_gout = new QLineEdit();
         QPushButton* del = new QPushButton("X");
+
         ui->gridLayout->addWidget(autre_mq,row,1,Qt::AlignHCenter);
         ui->gridLayout->addWidget(autre_nom,row,2,Qt::AlignHCenter);
         ui->gridLayout->addWidget(autre_type,row,3,Qt::AlignHCenter);

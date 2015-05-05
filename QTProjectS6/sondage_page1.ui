@@ -76,22 +76,6 @@
     </item>
     <item>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="1">
-       <widget class="QLabel" name="Marque">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
-        </property>
-        <property name="text">
-         <string>Marque</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
       <item row="1" column="0">
        <widget class="QLabel" name="autre">
         <property name="sizePolicy">
@@ -118,38 +102,6 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="3">
-       <widget class="QLabel" name="Type">
-        <property name="text">
-         <string>Type</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="4">
-       <widget class="QLabel" name="Gout">
-        <property name="text">
-         <string>Goût</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QLineEdit" name="autre_mq"/>
-      </item>
-      <item row="1" column="4">
-       <widget class="QLineEdit" name="autre_gout"/>
-      </item>
-      <item row="1" column="2">
-       <widget class="QLineEdit" name="autre_nm"/>
-      </item>
-      <item row="1" column="3">
-       <widget class="QLineEdit" name="autre_type"/>
-      </item>
       <item row="0" column="0">
        <spacer name="horizontalSpacer">
         <property name="orientation">
@@ -166,6 +118,51 @@
         </property>
        </spacer>
       </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="Marque">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
+        <property name="text">
+         <string>Marque</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QLabel" name="Type">
+        <property name="text">
+         <string>Type</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLineEdit" name="autre_nm"/>
+      </item>
+      <item row="1" column="3">
+       <widget class="QLineEdit" name="autre_type"/>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="autre_mq"/>
+      </item>
+      <item row="0" column="4">
+       <widget class="QLabel" name="Gout">
+        <property name="text">
+         <string>Goût</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
       <item row="1" column="5">
        <widget class="QPushButton" name="plus">
         <property name="enabled">
@@ -181,6 +178,9 @@
          <string>+</string>
         </property>
        </widget>
+      </item>
+      <item row="1" column="4">
+       <widget class="QLineEdit" name="autre_gout"/>
       </item>
      </layout>
     </item>

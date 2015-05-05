@@ -48,6 +48,7 @@ sondage_page2::sondage_page2(QWidget *parent) :
 
                     if(query.value("Est_achete").toInt()==1)
                     {
+                        qDebug()<<"derp est acheté";
                         check->setChecked(true);
                         QSpinBox* edit=new QSpinBox();
                         edit->setValue(query.value("frequence").toInt());

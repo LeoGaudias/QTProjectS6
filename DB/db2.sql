@@ -48,5 +48,23 @@ CREATE TABLE Sondage(
         PRIMARY KEY (Id ,IdY )
 )ENGINE=InnoDB;
 
+#------------------------------------------------------------
+# Table: Type
+#------------------------------------------------------------
+
+CREATE Type(
+		IdT INT(11) Auto_increment NOT NULL,
+		NomT Varchar(50) NOT NULL
+)ENGINE=InnoDB;
+
+#------------------------------------------------------------
+# Table: Gout
+#------------------------------------------------------------
+
+CREATE Gout(
+		IdG INT(11) Auto_increment NOT NULL,
+		NomG Varchar(50) NOT NULL
+)ENGINE=InnoDB;
+
 ALTER TABLE Sondage ADD CONSTRAINT FK_Sondage_Id FOREIGN KEY (Id) REFERENCES Personne(Id);
 ALTER TABLE Sondage ADD CONSTRAINT FK_Sondage_IdY FOREIGN KEY (IdY) REFERENCES Yaourt(IdY);
