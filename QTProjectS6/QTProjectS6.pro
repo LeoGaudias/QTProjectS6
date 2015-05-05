@@ -23,7 +23,8 @@ SOURCES += main.cpp\
     qcustomplot/qcustomplot.cpp \
     sondage_page2.cpp \
     sondage_merci.cpp \
-    recap.cpp
+    recap.cpp \
+    piechartwidget.cpp
 
 HEADERS  += mainwindow.h \
     ajoutpersonne.h \
@@ -33,7 +34,8 @@ HEADERS  += mainwindow.h \
     qcustomplot/qcustomplot.h \
     sondage_page2.h \
     sondage_merci.h \
-    recap.h
+    recap.h \
+    piechartwidget.h
 
 FORMS    += mainwindow.ui \
     sondage_page1.ui \

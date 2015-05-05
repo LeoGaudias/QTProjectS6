@@ -18,6 +18,9 @@ public:
     ~Resultats();
     Ui::Resultats *ui;
 
+private slots:
+    void on_buttonBox_accepted();
+
 private:
     MainWindow * p;
 };
