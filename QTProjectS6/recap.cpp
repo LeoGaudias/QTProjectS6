@@ -1,9 +1,8 @@
 #include "recap.h"
 #include "ui_recap.h"
-#include "sondage_page1.h"
+
 #include "connexion.h"
 #include "ui_mainwindow.h"
-
 #include <QPushButton>
 #include <QtSql>
 #include <QSqlDatabase>
@@ -11,13 +10,24 @@
 #include <QMessageBox>
 #include <QLabel>
 
-
-Recap::Recap(QWidget *parent) :
+Recap::Recap(QWidget *parent,QWidget* act) :
     QWidget(parent),
     ui(new Ui::Recap)
 {
-    p = (MainWindow *) parent;
+    p = (MainWindow *) parent;       
+
     ui->setupUi(this);
+
+    if(dynamic_cast<Sondage_page1*>(act))
+    {
+        precedent1=dynamic_cast<Sondage_page1*>(act);
+        precedent2=NULL;
+    }
+    else
+    {
+        precedent1=NULL;
+        precedent2=dynamic_cast<sondage_page2*>(act);
+    }
 
     QSqlQuery query;
 
@@ -101,13 +111,29 @@ void Recap::on_buttonBox_clicked(QAbstractButton *button)
     }
     else if(button == ui->buttonBox->button(QDialogButtonBox::Cancel)) //retourne au sondage
     {
-        Sondage_page1* sond_1 = new Sondage_page1(p);
-        p->setCentralWidget(sond_1);
+        if(precedent2==NULL)
+        {
+            qDebug()<<"page1";
+            Sondage_page1* sond_1 = new Sondage_page1(p);
+            p->setCentralWidget(sond_1);
 
-        int x = sond_1->width();
-        int y = sond_1->height()+50;
+            int x = sond_1->width();
+            int y = sond_1->height()+50;
 
-        p->resize(x,y);
+            p->resize(x,y);
+        }
+        else
+        {
+            qDebug()<<"page2";
+            sondage_page2* sond_2 = new sondage_page2(p);
+            p->setCentralWidget(sond_2);
+
+            int x = sond_2->width();
+            int y = sond_2->height()+50;
+
+            p->resize(x,y);
+        }
+
     }
     else // wipe tte les données
     {
