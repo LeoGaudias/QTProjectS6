@@ -42,12 +42,32 @@ sondage_page2::sondage_page2(QWidget *parent) :
                         check=new QCheckBox(query.value("Marque").toString()+" "+query.value("Nom").toString()+", au goût "+query.value("Gout").toString());
                     }
 
-                    if(query.value("Est_achete").toLongLong()==1)
-                    {
-                        check->setChecked(true);
-                    }
                     ui->gridLayout->addWidget(check,row,0,Qt::AlignHCenter);
                     map[check]=NULL;
+                    map2[check]=NULL;
+
+                    if(query.value("Est_achete").toInt()==1)
+                    {
+                        check->setChecked(true);
+                        QSpinBox* edit=new QSpinBox();
+                        edit->setValue(query.value("frequence").toInt());
+                        edit->setMinimum(1);
+                        QComboBox* combo=new QComboBox();
+
+                        combo->addItem("Homme");
+                        combo->addItem("Femme");
+                        combo->addItem("Enfant");
+                        combo->addItem("Homme & Enfant");
+                        combo->addItem("Femme & Enfant");
+                        combo->addItem("Tous");
+
+                        combo->setCurrentIndex(query.value("Type_pers").toInt());
+
+                        map[check]=edit;
+                        map2[check]=combo;
+                        ui->gridLayout->addWidget(edit,row,1,Qt::AlignLeft);
+                        ui->gridLayout->addWidget(combo,row,2,Qt::AlignLeft);
+                    }
 
                     checks_id.push_back(query.value("IdY").toLongLong());
                     QObject::connect(check,SIGNAL(stateChanged(int)),this,SLOT(checked(int)));
@@ -76,23 +96,37 @@ void sondage_page2::checked(int state)
     {
         if(state==2) // checked
         {
-            QLineEdit* edit=new QLineEdit();
+            QSpinBox* edit=new QSpinBox();
+            edit->setValue(1);
+            edit->setMinimum(1);
+            QComboBox* combo=new QComboBox();
+
+            combo->addItem("Homme");
+            combo->addItem("Femme");
+            combo->addItem("Enfant");
+            combo->addItem("Homme & Enfant");
+            combo->addItem("Femme & Enfant");
+            combo->addItem("Tous");
 
             map[check]=edit;
+            map2[check]=combo;
 
             vector<QCheckBox*>::iterator it;
             for(it=objets.begin();it!=objets.end();it++)
             {
                 if((*it)==check)
                 {
-                    ui->gridLayout->addWidget(edit,it-objets.begin(),1,Qt::AlignHCenter);
+                    ui->gridLayout->addWidget(edit,it-objets.begin(),1,Qt::AlignLeft);
+                    ui->gridLayout->addWidget(combo,it-objets.begin(),2,Qt::AlignLeft);
                 }
             }
         }
         else
         {
-            QLineEdit* edit=map[check];
+            QSpinBox* edit=map[check];
+            QComboBox* combo=map2[check];
             edit->deleteLater();
+            combo->deleteLater();
         }
     }
     else
@@ -139,8 +173,7 @@ void sondage_page2::on_buttonBox_clicked(QAbstractButton *button)
             for(it=objets.begin();it!=objets.end();it++)
             {
                 qDebug() << (*it)->text();
-                query.prepare("UPDATE Sondage SET Est_achete= :achete, frequence= :freq WHERE IdY= :idY");
-
+                query.prepare("UPDATE Sondage SET Est_achete= :achete, frequence= :freq, Type_Pers= :type_p WHERE IdY= :idY");
 
                 if((*it)->isChecked())
                 {
@@ -149,11 +182,37 @@ void sondage_page2::on_buttonBox_clicked(QAbstractButton *button)
 
                     int freq=map[(*it)]->text().toInt();
                     query.bindValue(":freq",freq);
+
+                    int sexe=0;
+                    if(map2[(*it)]->currentText().toStdString().compare("Femme")==0)
+                    {
+                        sexe=1;
+                    }
+                    else if(map2[(*it)]->currentText().toStdString().compare("Enfant")==0)
+                    {
+                        sexe=2;
+                    }
+                    else if(map2[(*it)]->currentText().toStdString().compare("Homme & Enfant")==0)
+                    {
+                        sexe=3;
+                    }
+                    else if(map2[(*it)]->currentText().toStdString().compare("Femme & Enfant")==0)
+                    {
+                        sexe=4;
+                    }
+                    else if(map2[(*it)]->currentText().toStdString().compare("Tous")==0)
+                    {
+                        sexe=5;
+                    }
+
+                    query.bindValue(":type_p",sexe);
+                    qDebug()<<"type"<<map2[(*it)]->currentText()<<" "<<sexe;
                 }
                 else
                 {
                     query.bindValue(":achete",0);
                     query.bindValue(":freq",0);
+                    query.bindValue(":type_p",0);
                 }
 
                 query.bindValue(":idY",checks_id.at(it-objets.begin()));
@@ -164,7 +223,7 @@ void sondage_page2::on_buttonBox_clicked(QAbstractButton *button)
                 }
                 else
                 {
-                    qDebug() << "Something goes wrong with the query" << p->db.lastError().text();
+                    qDebug() << "Something goes wrong with the query update" << p->db.lastError().text();
                     p->db.close();
                     exit(0);
                 }

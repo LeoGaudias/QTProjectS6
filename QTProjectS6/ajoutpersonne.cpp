@@ -122,6 +122,14 @@ void AjoutPersonne::on_buttonBox_accepted()
                 query.next();
                 p->ui->actionConnextion->setText("Se déconnecter");
                 p->last_id=query.value(0).toLongLong();
+                if(ui->radio_homme->isChecked())
+                {
+                    p->sexe=0;
+                }
+                else
+                {
+                    p->sexe=1;
+                }
 
                 p->myfile.close();
                 p->myfile.open("../last", std::fstream::out | std::fstream::trunc);

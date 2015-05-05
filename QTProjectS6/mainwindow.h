@@ -23,6 +23,7 @@ public:
     Ui::MainWindow *ui;
     QSqlDatabase db;
     int last_id;
+    int sexe;
     bool connected;
     QWidget *widget_base;
     fstream myfile;

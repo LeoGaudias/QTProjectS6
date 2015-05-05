@@ -31,7 +31,7 @@
     <rect>
      <x>10</x>
      <y>30</y>
-     <width>711</width>
+     <width>1030</width>
      <height>261</height>
     </rect>
    </property>
@@ -57,7 +57,7 @@
        </font>
       </property>
       <property name="text">
-       <string>Parmi ces marques, lesquelles avez-vous achetés au cours des 6 derniers mois et à quelle fréquence ?</string>
+       <string>Parmi ces marques, lesquelles avez-vous achetés au cours des 6 derniers mois, à quelle fréquence, et qui ?</string>
       </property>
      </widget>
     </item>

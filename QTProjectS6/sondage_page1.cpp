@@ -57,7 +57,7 @@ Sondage_page1::Sondage_page1(QWidget *parent) :
                         check=new QCheckBox(query.value("Marque").toString()+" "+query.value("Nom").toString()+", au goût "+query.value("Gout").toString());
                     }
 
-                    if(query.value("Present").toLongLong()==1)
+                    if(query.value("Present").toInt()==1)
                     {
                         check->setChecked(true);
                         inserted=true;
@@ -125,9 +125,10 @@ void Sondage_page1::on_buttonBox_accepted()
                 {
                     select=true;
                     qDebug()<<"checked"<<(*it)->text();
-                    query.prepare("INSERT INTO Sondage VALUES (NULL, 0, :id, :idY)");
+                    query.prepare("INSERT INTO Sondage VALUES (NULL, 0, :type, :id, :idY)");
                     query.bindValue(":id",p->last_id);
                     query.bindValue(":idY",checks_id.at(it-checks.begin()));
+                    query.bindValue(":type",p->sexe);
 
                     if(query.exec())
                     {
@@ -155,9 +156,10 @@ void Sondage_page1::on_buttonBox_accepted()
                     {
                         select=true;
                         qDebug()<<"checked"<<(*it)->text();
-                        query.prepare("INSERT INTO Sondage VALUES (NULL, 0, :id, :idY)");
+                        query.prepare("INSERT INTO Sondage VALUES (NULL, 0, :type, :id, :idY)");
                         query.bindValue(":id",p->last_id);
                         query.bindValue(":idY",checks_id.at(it-checks.begin()));
+                        query.bindValue(":type",p->sexe);
 
                         if(query.exec())
                         {
@@ -209,9 +211,10 @@ void Sondage_page1::on_buttonBox_accepted()
                     query.next();
                     dernier_id_yaourt = query.value(0).toLongLong();
 
-                    query.prepare("INSERT INTO Sondage VALUES (NULL, 0, :id, :idY)");
+                    query.prepare("INSERT INTO Sondage VALUES (NULL, 0, :type, :id, :idY)");
                     query.bindValue(":id",p->last_id);
                     query.bindValue(":idY",dernier_id_yaourt);
+                    query.bindValue(":type",p->sexe);
 
                     if(query.exec())
                     {
@@ -271,9 +274,10 @@ void Sondage_page1::on_buttonBox_accepted()
                        query.next();
                        dernier_id_yaourt = query.value(0).toLongLong();
 
-                       query.prepare("INSERT INTO Sondage VALUES (NULL, 0, :id, :idY)");
+                       query.prepare("INSERT INTO Sondage VALUES (NULL, 0, :type, :id, :idY)");
                        query.bindValue(":id",p->last_id);
                        query.bindValue(":idY",dernier_id_yaourt);
+                       query.bindValue(":type",p->sexe);
 
                        if(query.exec())
                        {

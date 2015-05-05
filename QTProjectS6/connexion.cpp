@@ -61,7 +61,7 @@ void Connexion::on_connecter_clicked()
     // gérer les exceptions
     if(p->db.open())
     {
-        query.prepare("SELECT Id FROM Personne WHERE Id = :id");
+        query.prepare("SELECT Id,Sexe FROM Personne WHERE Id = :id");
         query.bindValue(":id",ui->spinBox->value());
 
          if(query.exec())
@@ -71,7 +71,8 @@ void Connexion::on_connecter_clicked()
                  query.next();
                  p->connected=true;
                  p->ui->actionConnextion->setText("Se déconnecter");
-                 p->last_id=query.value(0).toLongLong();
+                 p->last_id=query.value("Id").toLongLong();
+                 p->sexe=query.value("Sexe").toInt();
 
                  p->myfile.close();
                  p->myfile.open("../last", std::fstream::out | std::fstream::trunc);

@@ -5,7 +5,8 @@
 #include "mainwindow.h"
 #include <vector>
 #include <QCheckBox>
-#include <QLineEdit>
+#include <QSpinBox>
+#include <QComboBox>
 
 using std::vector;
 
@@ -22,7 +23,8 @@ public:
     ~sondage_page2();
     vector<QCheckBox*> objets;
     vector<int> checks_id;
-    QMap<QCheckBox*,QLineEdit*> map;
+    QMap<QCheckBox*,QSpinBox*> map;
+    QMap<QCheckBox*,QComboBox*> map2;
 
 private slots:
     void on_buttonBox_rejected();

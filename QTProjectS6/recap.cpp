@@ -57,10 +57,14 @@ Recap::Recap(QWidget *parent,QWidget* act) :
                     {
                         achete = new QLabel("Non");
                     }
-                    frequence = new QLabel(query.value("frequence").toString() + "/mois");
+                    frequence = new QLabel(query.value("frequence").toString() + "/6 mois");
                     ui->gridLayout->addWidget(yaourt,row,1,Qt::AlignHCenter);
                     ui->gridLayout->addWidget(achete,row,2,Qt::AlignHCenter);
                     ui->gridLayout->addWidget(frequence,row,3,Qt::AlignHCenter);
+
+                    objets.push_back(yaourt);
+                    objets.push_back(achete);
+                    objets.push_back(frequence);
 
                     row++;
                 }
@@ -145,6 +149,13 @@ void Recap::on_buttonBox_clicked(QAbstractButton *button)
             if(query.exec())
             {
                 qDebug() << "Wipe data ok";
+
+                vector<QObject*>::iterator it;
+                for(it=objets.begin();it!=objets.end();it++)
+                {
+                    delete (*it);
+                }
+
                 QMessageBox::about(p,"Réinitialisation","Vos données ont bien été réinitialisées");
             }
             else

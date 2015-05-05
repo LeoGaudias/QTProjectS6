@@ -6,6 +6,7 @@
 #include "mainwindow.h"
 #include "sondage_page1.h"
 #include "sondage_page2.h"
+#include "vector"
 
 namespace Ui {
 class Recap;
@@ -31,6 +32,7 @@ private:
     MainWindow* p;
     Sondage_page1* precedent1;
     sondage_page2* precedent2;
+    vector<QObject*> objets;
 };
 
 #endif // RECAP_H
